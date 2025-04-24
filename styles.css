@@ -36,3 +36,23 @@ footer {
   margin-top: 3rem;
   font-size: 0.9rem;
 }
+
+.job {
+  margin-bottom: 2rem;
+}
+
+.job h3 {
+  color: #0b6efd;
+  margin-bottom: 0.3rem;
+}
+
+.job p {
+  margin-top: 0;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.job ul {
+  padding-left: 1.2rem;
+  list-style-type: disc;
+}
