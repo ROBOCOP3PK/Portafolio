@@ -61,7 +61,7 @@ footer {
   position: relative;
   width: 160px;
   height: 160px;
-  margin: -80px auto 1rem; /* flota la imagen entre header y contenido */
+  margin-top: -80px;
   z-index: 10;
 }
 
@@ -72,4 +72,9 @@ footer {
   border-radius: 50%;
   border: 5px solid white;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Nuevo: alineación a la izquierda */
+.foto-perfil.izquierda {
+  margin-left: 2rem; /* Puedes ajustar el valor si lo quieres más pegado o centrado */
 }
