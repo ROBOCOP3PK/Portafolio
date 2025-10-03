@@ -1,134 +1,665 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>David Gonzalez - Portafolio</title>
-  <link rel="stylesheet" href="styles.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>David Gonzalez - Desarrollador Web</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --accent-color: #3b82f6;
+            --dark-color: #1f2937;
+            --light-color: #f8fafc;
+            --text-dark: #374151;
+            --text-light: #6b7280;
+            --border-color: #e5e7eb;
+            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: var(--light-color);
+        }
+
+        /* Header Hero Section */
+        .hero {
+            background: var(--gradient);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" fill="white" opacity="0.1"><polygon points="0,100 0,0 1000,0 1000,80"/></svg>');
+            background-size: cover;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .profile-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 5px solid rgba(255,255,255,0.2);
+            margin: 0 auto 30px;
+            display: block;
+            object-fit: cover;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            background: #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: #999;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero .subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: rgba(255,255,255,0.9);
+        }
+
+        .btn-download {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+
+        .btn-download:hover {
+            background: white;
+            color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation */
+        .nav-tabs {
+            background: white;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            margin-top: -50px;
+            border-radius: 15px 15px 0 0;
+            overflow: hidden;
+        }
+
+        .nav-list {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+
+        .nav-item {
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 20px 15px;
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+            background: rgba(37, 99, 235, 0.05);
+        }
+
+        /* Content Sections */
+        .content {
+            background: white;
+            box-shadow: var(--shadow);
+            margin-bottom: 0;
+            min-height: 600px;
+        }
+
+        .section {
+            padding: 40px;
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section h2 {
+            color: var(--dark-color);
+            font-size: 2rem;
+            margin-bottom: 30px;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .section h2::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 30px;
+            background: var(--gradient);
+            border-radius: 2px;
+        }
+
+        /* Cards */
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+
+        .job-card {
+            position: relative;
+            padding-left: 40px;
+        }
+
+        .job-card::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 25px;
+            width: 12px;
+            height: 12px;
+            background: var(--primary-color);
+            border-radius: 50%;
+        }
+
+        .job-card h3 {
+            color: var(--primary-color);
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+
+        .job-meta {
+            color: var(--text-light);
+            font-style: italic;
+            margin-bottom: 15px;
+        }
+
+        /* Skills Grid */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .skill-category h4 {
+            color: var(--primary-color);
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .skill-tag {
+            background: var(--gradient);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* Lists */
+        .styled-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .styled-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+            padding-left: 25px;
+        }
+
+        .styled-list li:last-child {
+            border-bottom: none;
+        }
+
+        .styled-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark-color);
+            color: white;
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero .subtitle {
+                font-size: 1.1rem;
+            }
+
+            .contact-info {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-list {
+                flex-direction: column;
+            }
+
+            .nav-item {
+                min-width: auto;
+            }
+
+            .section {
+                padding: 20px;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animations */
+        .fade-in {
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
 </head>
 <body>
-  <header>
-    <h1>David Steven Gonzalez Padilla</h1>
-    <p>Ingeniero | Desarrollador Web</p>
-  </header>
-
-  <div class="foto-perfil izquierda">
-    <img src="perfil.jpg" alt="Foto de David">
-  </div>
- 
-
-  <main class="container">
-    <section>
-      <h2>📞 Datos Personales</h2>
-      <ul>
-        <li><strong>Teléfono:</strong> 3057594088</li>
-        <li><strong>Correo:</strong> davidsgonzalez98@hotmail.com</li>
-      </ul>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="profile-image">
+                <i class="fas fa-user"></i>
+            </div>
+            <h1>David Steven Gonzalez Padilla</h1>
+            <p class="subtitle">Ingeniero Electrónico | Desarrollador Web</p>
+            
+            <div class="contact-info">
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <span>3057594088</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <span>davidsgonzalez98@hotmail.com</span>
+                </div>
+            </div>
+            
+            <a href="#" class="btn-download">
+                <i class="fas fa-download"></i> Descargar CV
+            </a>
+        </div>
     </section>
 
-    <section>
-      <h2>👨‍💻 Perfil Profesional</h2>
-      <p>
-        Soy ingeniero electrónico enfocado en el desarrollo web, con experiencia creando soluciones robustas usando PHP, Laravel, Vue.js, MySQL, ORACLE. Inicié en el mundo de la automatización (RPA) con UiPath y Power Automate, lo que fortaleció mi visión orientada al usuario.
-      </p>
-      <p>
-        Actualmente me especializo en construir aplicaciones web limpias, escalables y bien estructuradas. Mi objetivo es seguir creciendo como desarrollador fullstack, aportando valor real a cada proyecto y equipo con el que colaboro.
-      </p>
-    </section>
+    <div class="container">
+        <!-- Navigation -->
+        <nav class="nav-tabs">
+            <ul class="nav-list">
+                <li class="nav-item">
+                    <a href="#perfil" class="nav-link active" onclick="showSection('perfil', this)">
+                        <i class="fas fa-user"></i> Perfil
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#experiencia" class="nav-link" onclick="showSection('experiencia', this)">
+                        <i class="fas fa-briefcase"></i> Experiencia
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#educacion" class="nav-link" onclick="showSection('educacion', this)">
+                        <i class="fas fa-graduation-cap"></i> Educación
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#habilidades" class="nav-link" onclick="showSection('habilidades', this)">
+                        <i class="fas fa-cogs"></i> Habilidades
+                    </a>
+                </li>
+            </ul>
+        </nav>
 
-    <section>
-      <h2>💼 Experiencia Profesional</h2>
+        <!-- Content -->
+        <main class="content">
+            <!-- Perfil Section -->
+            <section id="perfil" class="section active">
+                <h2>Perfil Profesional</h2>
+                <div class="card">
+                    <p style="font-size: 1.1rem; line-height: 1.8;">
+                        Soy <strong>ingeniero electrónico</strong> enfocado en el desarrollo web, con experiencia creando soluciones robustas usando <strong>PHP, Laravel, Vue.js, MySQL y ORACLE</strong>. Inicié en el mundo de la automatización (RPA) con UiPath y Power Automate, lo que fortaleció mi visión orientada al usuario.
+                    </p>
+                    <br>
+                    <p style="font-size: 1.1rem; line-height: 1.8;">
+                        Actualmente me especializo en construir <strong>aplicaciones web limpias, escalables y bien estructuradas</strong>. Mi objetivo es seguir creciendo como desarrollador fullstack, aportando valor real a cada proyecto y equipo con el que colaboro.
+                    </p>
+                </div>
 
-      <div class="job">
-        <h3>Desarrollador Junior - TurriSystem</h3>
-        <p><em>Dic. 2024 – Actualidad | Bogotá (Modalidad híbrida)</em></p>
-        <ul>
-          <li>Desarrollo de sistemas web con Laravel, Vue.js y Tailwind CSS.</li>
-          <li>Gestión de bases de datos MySQL, ORACLE y servicios backend en PHP.</li>
-          <li>Implementación de interfaces responsivas y modernas.</li>
-          <li>Implementaciòn de modulos a partir de mockups</li>
-          <li>Manejo de buenas practicas de</li>
-        </ul>
-      </div>
+                <h2 style="margin-top: 40px;">Intereses</h2>
+                <div class="card">
+                    <ul class="styled-list">
+                        <li>Aprendizaje continuo y nuevas tecnologías</li>
+                        <li>Resolver problemas con soluciones prácticas</li>
+                        <li>Desarrollo web fullstack</li>
+                        <li>Automatización de procesos</li>
+                    </ul>
+                </div>
+            </section>
 
-      <div class="job">
-        <h3>Desarrollador RPA - Thomas Greg and Sons</h3>
-        <p><em>Feb. 2023 – Nov. 2024 | Bogotá (Modalidad híbrida)</em></p>
-        <ul>
-          <li>Automatización de procesos empresariales con UiPath y Power Automate.</li>
-          <li>Desarrollo de aplicaciones internas con Power Apps y MySQL.</li>
-          <li>Implementación de macros en Excel para optimización de flujos de trabajo.</li>
-          <li>Documentación técnica y soporte funcional a los usuarios.</li>
-        </ul>
-      </div>
+            <!-- Experiencia Section -->
+            <section id="experiencia" class="section">
+                <h2>Experiencia Profesional</h2>
+                
+                <div class="card job-card">
+                    <h3>Desarrollador Junior - TurriSystem</h3>
+                    <p class="job-meta">Diciembre 2024 – Actualidad | Bogotá (Modalidad híbrida)</p>
+                    <ul class="styled-list">
+                        <li>Desarrollo de sistemas web con Laravel, Vue.js y Tailwind CSS</li>
+                        <li>Gestión de bases de datos MySQL, ORACLE y servicios backend en PHP</li>
+                        <li>Implementación de interfaces responsivas y modernas</li>
+                        <li>Implementación de módulos a partir de mockups</li>
+                        <li>Manejo de buenas prácticas de desarrollo</li>
+                    </ul>
+                </div>
 
-      <div class="job">
-        <h3>Auxiliar II Mejora Continua - Thomas Greg and Sons</h3>
-        <p><em>Sept. 2021 – Ene. 2023</em></p>
-        <ul>
-          <li>Automatización de tareas repetitivas mediante scripts y macros.</li>
-          <li>Apoyo en la gestión de datos y procesos de mejora continua.</li>
-          <li>Seguimiento en proyectos de transformación digital.</li>
-          <li>Levantamiento de informacion y construccion de casos de usuario</li>
-        </ul>
-      </div>
-    </section>
+                <div class="card job-card">
+                    <h3>Desarrollador RPA - Thomas Greg and Sons</h3>
+                    <p class="job-meta">Febrero 2023 – Noviembre 2024 | Bogotá (Modalidad híbrida)</p>
+                    <ul class="styled-list">
+                        <li>Automatización de procesos empresariales con UiPath y Power Automate</li>
+                        <li>Desarrollo de aplicaciones internas con Power Apps y MySQL</li>
+                        <li>Implementación de macros en Excel para optimización de flujos de trabajo</li>
+                        <li>Documentación técnica y soporte funcional a los usuarios</li>
+                    </ul>
+                </div>
 
-    <section>
-      <h2>🎓 Educación formal</h2>
-      <p>Ingeniero Electrónico, Universidad Cooperativa de Colombia - septiembre 2022</p>
-      <p>Especialización de Gestión de tecnologia de información, Universidad Corporacion unificada nacional - diciembre 2026</p>
-    </section>
+                <div class="card job-card">
+                    <h3>Auxiliar II Mejora Continua - Thomas Greg and Sons</h3>
+                    <p class="job-meta">Septiembre 2021 – Enero 2023</p>
+                    <ul class="styled-list">
+                        <li>Automatización de tareas repetitivas mediante scripts y macros</li>
+                        <li>Apoyo en la gestión de datos y procesos de mejora continua</li>
+                        <li>Seguimiento en proyectos de transformación digital</li>
+                        <li>Levantamiento de información y construcción de casos de usuario</li>
+                    </ul>
+                </div>
+            </section>
 
-    <section>
-      <h2>🛠️ Habilidades Técnicas</h2>
-      <ul>
-        <li><strong>Lenguajes:</strong> Python, PHP, JavaScript, VB.NET, VBA, HTML</li>
-        <li><strong>Frameworks:</strong> Laravel, Vue.js, Tailwind CSS, Django</li>
-        <li><strong>Bases de Datos:</strong> MySQL, ORACLE, Dataverse</li>
-        <li><strong>RPA y Automatización:</strong> UiPath, Power Automate</li>
-        <li><strong>Plataformas:</strong> Odoo, Power Apps, Microsoft</li>
-        <li><strong>Herramientas:</strong> Postman, Git</li>
-        <li><strong>Metodologías:</strong> Scrum, Kanban</li>
-        <li><strong>Idiomas:</strong> Español (nativo), Inglés (intermedio B2)</li>
-      </ul>
-    </section>
+            <!-- Educación Section -->
+            <section id="educacion" class="section">
+                <h2>Educación Formal</h2>
+                
+                <div class="card">
+                    <h3 style="color: var(--primary-color); margin-bottom: 10px;">Especialización en Gestión de Tecnología de Información</h3>
+                    <p><strong>Universidad Corporación Unificada Nacional</strong></p>
+                    <p class="job-meta">En curso - Diciembre 2026</p>
+                </div>
 
-    <section>
-      <h2>💡 Habilidades Blandas</h2>
-      <ul>
-        <li>Resolución de problemas</li>
-        <li>Adaptación al cambio</li>
-        <li>Comunicación efectiva</li>
-        <li>Trabajo en equipo</li>
-        <li>Gestión del tiempo</li>
-      </ul>
-    </section>
+                <div class="card">
+                    <h3 style="color: var(--primary-color); margin-bottom: 10px;">Ingeniería Electrónica</h3>
+                    <p><strong>Universidad Cooperativa de Colombia</strong></p>
+                    <p class="job-meta">Septiembre 2022</p>
+                </div>
 
-    <section>
-      <h2>📚 Cursos y Certificaciones</h2>
-      <ul>
-        <li>Six Sigma Mejora de procesos – Universidad EAN</li>
-        <li>Python – Uniagustiniana</li>
-        <li>UiPath – UiPath Academy</li>
-        <li>Power Apps – Microsoft Learn</li>
-        <li>Inglés – En curso (American School Way)</li>
-      </ul>
-    </section>
+                <h2 style="margin-top: 40px;">Cursos y Certificaciones</h2>
+                <div class="card">
+                    <ul class="styled-list">
+                        <li>Six Sigma Mejora de procesos – Universidad EAN</li>
+                        <li>Python – Uniagustiniana</li>
+                        <li>UiPath – UiPath Academy</li>
+                        <li>Power Apps – Microsoft Learn</li>
+                        <li>Inglés – En curso (American School Way)</li>
+                    </ul>
+                </div>
+            </section>
 
-    <section>
-      <h2>🎯 Intereses</h2>
-      <ul>
-        <li>Aprendizaje continuo y nuevas tecnologías</li>
-        <li>Resolver problemas con soluciones practicas</li>
-        <li>Desarrollo web fullstack</li>
-        <li>Automatización de procesos</li>
-      </ul>
-    </section>
-  </main>
+            <!-- Habilidades Section -->
+            <section id="habilidades" class="section">
+                <h2>Habilidades Técnicas</h2>
+                
+                <div class="skills-grid">
+                    <div class="skill-category">
+                        <h4><i class="fas fa-code"></i> Lenguajes de Programación</h4>
+                        <div class="skill-tags">
+                            <span class="skill-tag">PHP</span>
+                            <span class="skill-tag">JavaScript</span>
+                            <span class="skill-tag">Python</span>
+                            <span class="skill-tag">VB.NET</span>
+                            <span class="skill-tag">VBA</span>
+                            <span class="skill-tag">HTML</span>
+                        </div>
+                    </div>
 
-  <footer>
-    <p>© 2025 David Steven Gonzalez Padilla</p>
-  </footer>
+                    <div class="skill-category">
+                        <h4><i class="fas fa-layer-group"></i> Frameworks</h4>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Laravel</span>
+                            <span class="skill-tag">Vue.js</span>
+                            <span class="skill-tag">Tailwind CSS</span>
+                            <span class="skill-tag">Django</span>
+                        </div>
+                    </div>
+
+                    <div class="skill-category">
+                        <h4><i class="fas fa-database"></i> Bases de Datos</h4>
+                        <div class="skill-tags">
+                            <span class="skill-tag">MySQL</span>
+                            <span class="skill-tag">ORACLE</span>
+                            <span class="skill-tag">Dataverse</span>
+                        </div>
+                    </div>
+
+                    <div class="skill-category">
+                        <h4><i class="fas fa-robot"></i> RPA y Automatización</h4>
+                        <div class="skill-tags">
+                            <span class="skill-tag">UiPath</span>
+                            <span class="skill-tag">Power Automate</span>
+                        </div>
+                    </div>
+
+                    <div class="skill-category">
+                        <h4><i class="fas fa-tools"></i> Herramientas</h4>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Git</span>
+                            <span class="skill-tag">Postman</span>
+                            <span class="skill-tag">Power Apps</span>
+                            <span class="skill-tag">Odoo</span>
+                        </div>
+                    </div>
+
+                    <div class="skill-category">
+                        <h4><i class="fas fa-tasks"></i> Metodologías</h4>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Scrum</span>
+                            <span class="skill-tag">Kanban</span>
+                        </div>
+                    </div>
+                </div>
+
+                <h2 style="margin-top: 40px;">Habilidades Blandas</h2>
+                <div class="card">
+                    <div class="skills-grid">
+                        <div class="skill-category">
+                            <div class="skill-tags">
+                                <span class="skill-tag">Resolución de problemas</span>
+                                <span class="skill-tag">Adaptación al cambio</span>
+                                <span class="skill-tag">Comunicación efectiva</span>
+                                <span class="skill-tag">Trabajo en equipo</span>
+                                <span class="skill-tag">Gestión del tiempo</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h2 style="margin-top: 40px;">Idiomas</h2>
+                <div class="card">
+                    <div class="skills-grid">
+                        <div class="skill-category">
+                            <h4><i class="fas fa-language"></i> Nivel de Idiomas</h4>
+                            <div class="skill-tags">
+                                <span class="skill-tag">Español (Nativo)</span>
+                                <span class="skill-tag">Inglés (B2 - Intermedio)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <footer>
+        <p>© 2025 David Steven Gonzalez Padilla - Todos los derechos reservados</p>
+    </footer>
+
+    <script>
+        function showSection(sectionId, clickedLink) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active class from all nav links
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Add active class to clicked nav link
+            clickedLink.classList.add('active');
+        }
+
+        // Add smooth animations on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                }
+            });
+        }, observerOptions);
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                observer.observe(card);
+            });
+        });
+    </script>
 </body>
 </html>
