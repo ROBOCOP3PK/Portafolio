@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Red de Habilidades - David Gonzalez</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            overflow: hidden;
+        }
+
+        .container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .network {
+            position: relative;
+            width: 90%;
+            height: 90%;
+            max-width: 1200px;
+            max-height: 800px;
+        }
+
+        .node {
+            position: absolute;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            border: 2px solid rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            user-select: none;
+            z-index: 10;
+        }
+
+        .node:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.4);
+            z-index: 20;
+        }
+
+        .node.active {
+            transform: scale(1.15);
+            box-shadow: 0 15px 45px rgba(0,0,0,0.5);
+            border-color: rgba(255,255,255,0.8);
+            z-index: 30;
+        }
+
+        /* Categorías principales */
+        .frontend {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+        }
+
+        .backend {
+            background: linear-gradient(135deg, #4ecdc4, #44a08d);
+        }
+
+        .database {
+            background: linear-gradient(135deg, #feca57, #ff9ff3);
+        }
+
+        .automation {
+            background: linear-gradient(135deg, #5f27cd, #a55eea);
+        }
+
+        .tools {
+            background: linear-gradient(135deg, #54a0ff, #2e86de);
+        }
+
+        .methodologies {
+            background: linear-gradient(135deg, #26de81, #20bf6b);
+        }
+
+        /* Nodos centrales más grandes */
+        .center-node {
+            font-size: 18px;
+            padding: 18px 30px;
+            font-weight: 700;
+        }
+
+        /* Nodos de tecnologías específicas */
+        .tech-node {
+            font-size: 14px;
+            padding: 10px 16px;
+        }
+
+        .connection {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(90deg, rgba(255,255,255,0.3), rgba(255,255,255,0.6), rgba(255,255,255,0.3));
+            transform-origin: left center;
+            z-index: 1;
+            transition: all 0.3s ease;
+        }
+
+        .connection.active {
+            background: linear-gradient(90deg, rgba(255,255,255,0.6), rgba(255,255,255,1), rgba(255,255,255,0.6));
+            height: 3px;
+            box-shadow: 0 0 10px rgba(255,255,255,0.5);
+        }
+
+        .legend {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(0,0,0,0.3);
+            padding: 20px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .legend h3 {
+            margin-bottom: 15px;
+            font-size: 16px;
+            color: #fff;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 12px;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .title {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            text-align: right;
+        }
+
+        .title h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .title p {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            .node {
+                padding: 8px 12px;
+                font-size: 12px;
+            }
+            
+            .center-node {
+                font-size: 14px;
+                padding: 12px 20px;
+            }
+            
+            .tech-node {
+                font-size: 10px;
+                padding: 6px 10px;
+            }
+            
+            .legend {
+                top: 10px;
+                left: 10px;
+                padding: 15px;
+            }
+            
+            .title {
+                top: 10px;
+                right: 10px;
+            }
+            
+            .title h1 {
+                font-size: 18px;
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 15px rgba(255, 255, 255, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+            }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="legend">
+            <h3>Categorías</h3>
+            <div class="legend-item">
+                <div class="legend-color frontend"></div>
+                <span>Frontend</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color backend"></div>
+                <span>Backend</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color database"></div>
+                <span>Bases de Datos</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color automation"></div>
+                <span>Automatización</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color tools"></div>
+                <span>Herramientas</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color methodologies"></div>
+                <span>Metodologías</span>
+            </div>
+        </div>
+
+        <div class="title">
+            <h1>David Steven Gonzalez</h1>
+            <p>Red de Habilidades Técnicas</p>
+        </div>
+
+        <div class="network" id="network">
+            <!-- Los nodos se generarán dinámicamente -->
+        </div>
+    </div>
+
+    <script>
+        const skills = {
+            // Nodos principales (categorías)
+            frontend: {
+                type: 'category',
+                class: 'frontend center-node',
+                position: { x: 15, y: 25 },
+                connections: ['javascript', 'html', 'vuejs', 'tailwind']
+            },
+            backend: {
+                type: 'category',
+                class: 'backend center-node',
+                position: { x: 85, y: 25 },
+                connections: ['php', 'laravel', 'python', 'django', 'vbnet']
+            },
+            database: {
+                type: 'category',
+                class: 'database center-node',
+                position: { x: 50, y: 15 },
+                connections: ['mysql', 'oracle', 'dataverse']
+            },
+            automation: {
+                type: 'category',
+                class: 'automation center-node',
+                position: { x: 20, y: 70 },
+                connections: ['uipath', 'powerautomate', 'vba']
+            },
+            tools: {
+                type: 'category',
+                class: 'tools center-node',
+                position: { x: 80, y: 70 },
+                connections: ['git', 'postman', 'powerapps', 'odoo']
+            },
+            methodologies: {
+                type: 'category',
+                class: 'methodologies center-node',
+                position: { x: 50, y: 85 },
+                connections: ['scrum', 'kanban']
+            },
+
+            // Tecnologías específicas
+            // Frontend
+            javascript: {
+                type: 'tech',
+                class: 'frontend tech-node',
+                position: { x: 5, y: 40 },
+                connections: ['vuejs', 'php', 'postman']
+            },
+            html: {
+                type: 'tech',
+                class: 'frontend tech-node',
+                position: { x: 25, y: 10 },
+                connections: ['tailwind', 'javascript']
+            },
+            vuejs: {
+                type: 'tech',
+                class: 'frontend tech-node',
+                position: { x: 35, y: 35 },
+                connections: ['laravel', 'tailwind']
+            },
+            tailwind: {
+                type: 'tech',
+                class: 'frontend tech-node',
+                position: { x: 30, y: 50 },
+                connections: ['html', 'vuejs']
+            },
+
+            // Backend
+            php: {
+                type: 'tech',
+                class: 'backend tech-node',
+                position: { x: 70, y: 40 },
+                connections: ['laravel', 'mysql', 'oracle']
+            },
+            laravel: {
+                type: 'tech',
+                class: 'backend tech-node',
+                position: { x: 65, y: 50 },
+                connections: ['php', 'mysql', 'vuejs']
+            },
+            python: {
+                type: 'tech',
+                class: 'backend tech-node',
+                position: { x: 90, y: 40 },
+                connections: ['django', 'mysql']
+            },
+            django: {
+                type: 'tech',
+                class: 'backend tech-node',
+                position: { x: 95, y: 55 },
+                connections: ['python']
+            },
+            vbnet: {
+                type: 'tech',
+                class: 'backend tech-node',
+                position: { x: 75, y: 10 },
+                connections: []
+            },
+
+            // Bases de datos
+            mysql: {
+                type: 'tech',
+                class: 'database tech-node',
+                position: { x: 40, y: 5 },
+                connections: ['php', 'laravel', 'python']
+            },
+            oracle: {
+                type: 'tech',
+                class: 'database tech-node',
+                position: { x: 60, y: 5 },
+                connections: ['php']
+            },
+            dataverse: {
+                type: 'tech',
+                class: 'database tech-node',
+                position: { x: 50, y: 2 },
+                connections: ['powerapps']
+            },
+
+            // Automatización
+            uipath: {
+                type: 'tech',
+                class: 'automation tech-node',
+                position: { x: 10, y: 85 },
+                connections: ['vba']
+            },
+            powerautomate: {
+                type: 'tech',
+                class: 'automation tech-node',
+                position: { x: 30, y: 85 },
+                connections: ['powerapps', 'vba']
+            },
+            vba: {
+                type: 'tech',
+                class: 'automation tech-node',
+                position: { x: 5, y: 55 },
+                connections: ['uipath', 'powerautomate']
+            },
+
+            // Herramientas
+            git: {
+                type: 'tech',
+                class: 'tools tech-node',
+                position: { x: 95, y: 75 },
+                connections: ['laravel', 'django']
+            },
+            postman: {
+                type: 'tech',
+                class: 'tools tech-node',
+                position: { x: 70, y: 85 },
+                connections: ['php', 'laravel']
+            },
+            powerapps: {
+                type: 'tech',
+                class: 'tools tech-node',
+                position: { x: 85, y: 85 },
+                connections: ['powerautomate', 'dataverse']
+            },
+            odoo: {
+                type: 'tech',
+                class: 'tools tech-node',
+                position: { x: 90, y: 10 },
+                connections: []
+            },
+
+            // Metodologías
+            scrum: {
+                type: 'tech',
+                class: 'methodologies tech-node',
+                position: { x: 40, y: 95 },
+                connections: ['kanban']
+            },
+            kanban: {
+                type: 'tech',
+                class: 'methodologies tech-node',
+                position: { x: 60, y: 95 },
+                connections: ['scrum']
+            }
+        };
+
+        const networkContainer = document.getElementById('network');
+        const nodes = {};
+        const connections = [];
+
+        // Función para capitalizar nombres
+        function capitalize(str) {
+            const specialCases = {
+                'javascript': 'JavaScript',
+                'html': 'HTML',
+                'vuejs': 'Vue.js',
+                'tailwind': 'Tailwind CSS',
+                'php': 'PHP',
+                'laravel': 'Laravel',
+                'python': 'Python',
+                'django': 'Django',
+                'vbnet': 'VB.NET',
+                'mysql': 'MySQL',
+                'oracle': 'ORACLE',
+                'dataverse': 'Dataverse',
+                'uipath': 'UiPath',
+                'powerautomate': 'Power Automate',
+                'vba': 'VBA',
+                'git': 'Git',
+                'postman': 'Postman',
+                'powerapps': 'Power Apps',
+                'odoo': 'Odoo',
+                'scrum': 'Scrum',
+                'kanban': 'Kanban',
+                'frontend': 'FRONTEND',
+                'backend': 'BACKEND',
+                'database': 'BASES DE DATOS',
+                'automation': 'AUTOMATIZACIÓN',
+                'tools': 'HERRAMIENTAS',
+                'methodologies': 'METODOLOGÍAS'
+            };
+            return specialCases[str] || str.charAt(0).toUpperCase() + str.slice(1);
+        }
+
+        // Crear nodos
+        Object.entries(skills).forEach(([id, skill]) => {
+            const node = document.createElement('div');
+            node.className = `node ${skill.class}`;
+            node.id = id;
+            node.textContent = capitalize(id);
+            
+            const rect = networkContainer.getBoundingClientRect();
+            node.style.left = `${skill.position.x}%`;
+            node.style.top = `${skill.position.y}%`;
+            node.style.transform = 'translate(-50%, -50%)';
+            
+            networkContainer.appendChild(node);
+            nodes[id] = node;
+        });
+
+        // Crear conexiones
+        function createConnection(from, to) {
+            const fromNode = nodes[from];
+            const toNode = nodes[to];
+            
+            if (!fromNode || !toNode) return;
+            
+            const connection = document.createElement('div');
+            connection.className = 'connection';
+            connection.dataset.from = from;
+            connection.dataset.to = to;
+            
+            updateConnectionPosition(connection, fromNode, toNode);
+            
+            networkContainer.appendChild(connection);
+            connections.push(connection);
+        }
+
+        function updateConnectionPosition(connection, fromNode, toNode) {
+            const fromRect = fromNode.getBoundingClientRect();
+            const toRect = toNode.getBoundingClientRect();
+            const containerRect = networkContainer.getBoundingClientRect();
+            
+            const fromX = fromRect.left + fromRect.width / 2 - containerRect.left;
+            const fromY = fromRect.top + fromRect.height / 2 - containerRect.top;
+            const toX = toRect.left + toRect.width / 2 - containerRect.left;
+            const toY = toRect.top + toRect.height / 2 - containerRect.top;
+            
+            const distance = Math.sqrt(Math.pow(toX - fromX, 2) + Math.pow(toY - fromY, 2));
+            const angle = Math.atan2(toY - fromY, toX - fromX) * (180 / Math.PI);
+            
+            connection.style.left = fromX + 'px';
+            connection.style.top = fromY + 'px';
+            connection.style.width = distance + 'px';
+            connection.style.transform = `rotate(${angle}deg)`;
+        }
+
+        // Generar todas las conexiones
+        Object.entries(skills).forEach(([id, skill]) => {
+            skill.connections.forEach(targetId => {
+                createConnection(id, targetId);
+            });
+        });
+
+        // Eventos de interacción
+        let activeConnections = [];
+
+        function highlightConnections(nodeId) {
+            // Limpiar conexiones activas
+            activeConnections.forEach(conn => conn.classList.remove('active'));
+            activeConnections = [];
+            
+            // Encontrar conexiones relacionadas
+            connections.forEach(connection => {
+                if (connection.dataset.from === nodeId || connection.dataset.to === nodeId) {
+                    connection.classList.add('active');
+                    activeConnections.push(connection);
+                }
+            });
+            
+            // Destacar nodos conectados
+            document.querySelectorAll('.node').forEach(node => {
+                node.classList.remove('active', 'pulse');
+            });
+            
+            nodes[nodeId].classList.add('active', 'pulse');
+            
+            if (skills[nodeId].connections) {
+                skills[nodeId].connections.forEach(connId => {
+                    if (nodes[connId]) {
+                        nodes[connId].classList.add('active');
+                    }
+                });
+            }
+        }
+
+        function clearHighlights() {
+            activeConnections.forEach(conn => conn.classList.remove('active'));
+            activeConnections = [];
+            document.querySelectorAll('.node').forEach(node => {
+                node.classList.remove('active', 'pulse');
+            });
+        }
+
+        // Eventos para los nodos
+        Object.keys(nodes).forEach(nodeId => {
+            const node = nodes[nodeId];
+            
+            node.addEventListener('mouseenter', () => {
+                highlightConnections(nodeId);
+            });
+            
+            node.addEventListener('mouseleave', () => {
+                clearHighlights();
+            });
+            
+            node.addEventListener('click', () => {
+                highlightConnections(nodeId);
+                setTimeout(clearHighlights, 3000);
+            });
+        });
+
+        // Redimensionar conexiones cuando cambie el tamaño de ventana
+        window.addEventListener('resize', () => {
+            connections.forEach(connection => {
+                const fromNode = nodes[connection.dataset.from];
+                const toNode = nodes[connection.dataset.to];
+                updateConnectionPosition(connection, fromNode, toNode);
+            });
+        });
+
+        // Animación inicial
+        setTimeout(() => {
+            document.querySelectorAll('.node').forEach((node, index) => {
+                setTimeout(() => {
+                    node.style.opacity = '1';
+                    node.style.transform = 'translate(-50%, -50%) scale(1)';
+                }, index * 100);
+            });
+        }, 100);
+
+        // Inicializar opacidad de nodos
+        document.querySelectorAll('.node').forEach(node => {
+            node.style.opacity = '0';
+            node.style.transform = 'translate(-50%, -50%) scale(0.5)';
+            node.style.transition = 'all 0.5s ease';
+        });
+    </script>
+</body>
+</html>
