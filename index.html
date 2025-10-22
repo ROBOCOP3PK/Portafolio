@@ -874,6 +874,337 @@
                     </div>
                 </div>
             </section>
+            <!-- Proyectos Section -->
+            <section id="proyectos" class="section">
+                <h2>Proyectos Realizados</h2>
+                
+                <div style="margin-bottom: 40px;">
+                    <div class="skills-grid" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+                        <div style="text-align: center; padding: 15px; background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(59, 130, 246, 0.05)); border-radius: 10px; cursor: pointer; transition: all 0.3s ease;" onclick="filterProjects('power-platform')" id="filter-power-platform">
+                            <i class="fas fa-plug" style="font-size: 2rem; color: var(--primary-color); margin-bottom: 10px;"></i>
+                            <h4 style="color: var(--primary-color); margin-bottom: 5px;">Power Platform</h4>
+                            <p style="font-size: 0.9rem; color: var(--text-light);">5 aplicaciones empresariales</p>
+                        </div>
+                        <div style="text-align: center; padding: 15px; background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(59, 130, 246, 0.05)); border-radius: 10px; cursor: pointer; transition: all 0.3s ease;" onclick="filterProjects('rpa')" id="filter-rpa">
+                            <i class="fas fa-robot" style="font-size: 2rem; color: var(--primary-color); margin-bottom: 10px;"></i>
+                            <h4 style="color: var(--primary-color); margin-bottom: 5px;">RPA - UiPath</h4>
+                            <p style="font-size: 0.9rem; color: var(--text-light);">5 asistentes virtuales</p>
+                        </div>
+                        <div style="text-align: center; padding: 15px; background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(59, 130, 246, 0.05)); border-radius: 10px; cursor: pointer; transition: all 0.3s ease;" onclick="filterProjects('web-dev')" id="filter-web-dev">
+                            <i class="fas fa-code" style="font-size: 2rem; color: var(--primary-color); margin-bottom: 10px;"></i>
+                            <h4 style="color: var(--primary-color); margin-bottom: 5px;">Desarrollo Web</h4>
+                            <p style="font-size: 0.9rem; color: var(--text-light);">Python/Django + Odoo</p>
+                        </div>
+                        <div style="text-align: center; padding: 15px; background: linear-gradient(135deg, rgba(37, 99, 235, 0.2), rgba(59, 130, 246, 0.1)); border-radius: 10px; cursor: pointer; transition: all 0.3s ease; transform: scale(1.05); box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3); border: 2px solid rgba(37, 99, 235, 0.3);" onclick="filterProjects('all')" id="filter-all">
+                            <i class="fas fa-th-large" style="font-size: 2rem; color: var(--primary-color); margin-bottom: 10px;"></i>
+                            <h4 style="color: var(--primary-color); margin-bottom: 5px;">Ver Todos</h4>
+                            <p style="font-size: 0.9rem; color: var(--text-light);">Todos los proyectos</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Proyectos Power Platform -->
+                <div class="projects-container" data-category="power-platform">
+                    <h3 style="color: var(--primary-color); margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-plug"></i> Power Platform (Power Apps, Power Automate, Dataverse)
+                    </h3>
+
+                    <div class="card">
+                        <h4 style="color: var(--secondary-color); margin-bottom: 15px;">
+                            <i class="fas fa-map-marker-alt"></i> Reserva de Zonas Corporativas
+                        </h4>
+                        <p style="margin-bottom: 15px;"><strong>Gestión integral de espacios:</strong> Puestos de trabajo, oficinas, salas de reuniones, parqueaderos y salas de capacitación.</p>
+                        
+                        <div style="background: rgba(37, 99, 235, 0.05); padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                            <h5 style="color: var(--primary-color); margin-bottom: 10px;">Características destacadas:</h5>
+                            <ul class="styled-list" style="margin-bottom: 0;">
+                                <li>Plano interactivo para selección de ubicaciones exactas</li>
+                                <li>Validaciones automáticas de capacidad y disponibilidad</li>
+                                <li>Función de habilitar/deshabilitar zonas específicas</li>
+                                <li>Flujo de aprobación para personal externo</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap;">
+                            <span class="skill-tag" style="font-size: 0.8rem;">Power Apps</span>
+                            <span class="skill-tag" style="font-size: 0.8rem;">Power Automate</span>
+                            <span class="skill-tag" style="font-size: 0.8rem;">Dataverse</span>
+                            <span class="skill-tag" style="font-size: 0.8rem;">SharePoint</span>
+                        </div>
+                        
+                        <p style="font-style: italic; color: var(--text-light); margin-bottom: 0;"><strong>Impacto:</strong> Optimizó la gestión de espacios corporativos, reduciendo conflictos en reservas y aumentando la eficiencia del uso de recursos.</p>
+                    </div>
+
+                    <div class="card">
+                        <h4 style="color: var(--secondary-color); margin-bottom: 15px;">
+                            <i class="fas fa-gift"></i> Gestión de Beneficios a Empleados
+                        </h4>
+                        <p style="margin-bottom: 15px;"><strong>Dashboard personalizado</strong> para que cada empleado visualice y administre sus beneficios laborales.</p>
+                        
+                        <div style="background: rgba(37, 99, 235, 0.05); padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                            <h5 style="color: var(--primary-color); margin-bottom: 10px;">Funcionalidades principales:</h5>
+                            <ul class="styled-list" style="margin-bottom: 0;">
+                                <li>Visualización de horas y días de beneficios disponibles</li>
+                                <li>Solicitud organizada de permisos</li>
+                                <li>Beneficios configurables adaptables a políticas empresariales</li>
+                                <li>Control de beneficios no acumulables</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap;">
+                            <span class="skill-tag" style="font-size: 0.8rem;">Power Apps</span>
+                            <span class="skill-tag" style="font-size: 0.8rem;">Dataverse</span>
+                            <span class="skill-tag" style="font-size: 0.8rem;">Control de Roles</span>
+                        </div>
+                        
+                        <p style="font-style: italic; color: var(--text-light); margin-bottom: 0;"><strong>Impacto:</strong> Facilitó la administración de beneficios, reduciendo carga administrativa y mejorando transparencia en comunicación con empleados.</p>
+                    </div>
+
+                    <div class="card">
+                        <h4 style="color: var(--secondary-color); margin-bottom: 15px;">
+                            <i class="fas fa-file-alt"></i> Gestión Documental
+                        </h4>
+                        <p style="margin-bottom: 15px;"><strong>Sistema integral</strong> para gestionar solicitudes de desarrollos internos con trazabilidad completa.</p>
+                        
+                        <div style="background: rgba(37, 99, 235, 0.05); padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                            <h5 style="color: var(--primary-color); margin-bottom: 10px;">Características avanzadas:</h5>
+                            <ul class="styled-list" style="margin-bottom: 0;">
+                                <li>Creación automática de tickets de mesa de ayuda</li>
+                                <li>Seguimiento detallado con historial completo</li>
+                                <li>Generación automática de documentos PDF</li>
+                                <li>Envío automático por correo electrónico</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap;">
+                            <span class="skill-tag" style="font-size: 0.8rem;">Power Apps</span>
+                            <span class="skill-tag" style="font-size: 0.8rem;">Power Automate</span>
+                            <span class="skill-tag" style="font-size: 0.8rem;">SharePoint</span>
+                            <span class="skill-tag" style="font-size: 0.8rem;">PDF Generation</span>
+                        </div>
+                        
+                        <p style="font-style: italic; color: var(--text-light); margin-bottom: 0;"><strong>Impacto:</strong> Automatizó gestión de solicitudes, mejorando trazabilidad y reduciendo tiempos de resolución de incidentes.</p>
+                    </div>
+
+                    <div class="card">
+                        <h4 style="color: var(--secondary-color); margin-bottom: 15px;">
+                            <i class="fas fa-clock"></i> Registro de Tiempo Invertido
+                        </h4>
+                        <p style="margin-bottom: 15px;"><strong>Plataforma de seguimiento</strong> para recopilar y organizar tiempo dedicado a proyectos y servicios.</p>
+                        
+                        <div style="background: rgba(37, 99, 235, 0.05); padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                            <h5 style="color: var(--primary-color); margin-bottom: 10px;">Capacidades de análisis:</h5>
+                            <ul class="styled-list" style="margin-bottom: 0;">
+                                <li>Registro de actividades con formularios intuitivos</li>
+                                <li>Reportes mensuales detallados por empleado, cliente y proyecto</li>
+                                <li>Métricas de distribución de tiempo en servicios</li>
+                                <li>Dashboard para líderes de procesos</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap;">
+                            <span class="skill-tag" style="font-size: 0.8rem;">Power Apps</span>
+                            <span class="skill-tag" style="font-size: 0.8rem;">Power BI</span>
+                            <span class="skill-tag" style="font-size: 0.8rem;">Excel Reports</span>
+                        </div>
+                        
+                        <p style="font-style: italic; color: var(--text-light); margin-bottom: 0;"><strong>Impacto:</strong> Brindó visión detallada de productividad del equipo, facilitando toma de decisiones estratégicas para asignación de recursos.</p>
+                    </div>
+                </div>
+
+                <!-- Proyectos RPA -->
+                <div class="projects-container" data-category="rpa" style="display: none;">
+                    <h3 style="color: var(--primary-color); margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-robot"></i> Automatización RPA con UiPath
+                    </h3>
+
+                    <div class="card">
+                        <h4 style="color: var(--secondary-color); margin-bottom: 15px;">
+                            <i class="fas fa-receipt"></i> Asistente Virtual Impuestos
+                        </h4>
+                        <p style="margin-bottom: 15px;"><strong>Automatización fiscal:</strong> Generación y envío automático de certificados de retenciones.</p>
+                        
+                        <div style="background: rgba(95, 39, 205, 0.05); padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                            <h5 style="color: #5f27cd; margin-bottom: 10px;">Proceso automatizado:</h5>
+                            <ul class="styled-list" style="margin-bottom: 0;">
+                                <li>Acceso automático al ERP de la compañía</li>
+                                <li>Filtrado de clientes según reglas de negocio</li>
+                                <li>Generación de informes PDF con retenciones (IVA, ICA, fuente)</li>
+                                <li>Envío automático por correo electrónico</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap;">
+                            <span style="background: linear-gradient(135deg, #5f27cd, #a55eea); color: white; padding: 4px 8px; border-radius: 15px; font-size: 0.8rem;">UiPath</span>
+                            <span style="background: linear-gradient(135deg, #5f27cd, #a55eea); color: white; padding: 4px 8px; border-radius: 15px; font-size: 0.8rem;">ERP Integration</span>
+                            <span style="background: linear-gradient(135deg, #5f27cd, #a55eea); color: white; padding: 4px 8px; border-radius: 15px; font-size: 0.8rem;">PDF Generation</span>
+                        </div>
+                        
+                        <p style="font-style: italic; color: var(--text-light); margin-bottom: 0;"><strong>Impacto:</strong> Automatizó emisión de certificados de impuestos, reduciendo tiempos de respuesta y mejorando experiencia de clientes.</p>
+                    </div>
+
+                    <div class="card">
+                        <h4 style="color: var(--secondary-color); margin-bottom: 15px;">
+                            <i class="fas fa-upload"></i> Asistente Virtual Documental
+                        </h4>
+                        <p style="margin-bottom: 15px;"><strong>Carga masiva inteligente:</strong> Automatización de carga de documentos de contratación.</p>
+                        
+                        <div style="background: rgba(95, 39, 205, 0.05); padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                            <h5 style="color: #5f27cd; margin-bottom: 10px;">Validaciones automáticas:</h5>
+                            <ul class="styled-list" style="margin-bottom: 0;">
+                                <li>Validación de nombres y estructuras de archivos</li>
+                                <li>Carga masiva al ERP con verificaciones</li>
+                                <li>Generación de alertas para documentos faltantes</li>
+                                <li>Reportes de errores y correcciones necesarias</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap;">
+                            <span style="background: linear-gradient(135deg, #5f27cd, #a55eea); color: white; padding: 4px 8px; border-radius: 15px; font-size: 0.8rem;">UiPath</span>
+                            <span style="background: linear-gradient(135deg, #5f27cd, #a55eea); color: white; padding: 4px 8px; border-radius: 15px; font-size: 0.8rem;">File Processing</span>
+                            <span style="background: linear-gradient(135deg, #5f27cd, #a55eea); color: white; padding: 4px 8px; border-radius: 15px; font-size: 0.8rem;">ERP Integration</span>
+                        </div>
+                        
+                        <p style="font-style: italic; color: var(--text-light); margin-bottom: 0;"><strong>Impacto:</strong> Facilitó proceso de contratación, reduciendo errores y tiempos de carga manual.</p>
+                    </div>
+
+                    <div class="card">
+                        <h4 style="color: var(--secondary-color); margin-bottom: 15px;">
+                            <i class="fas fa-file-invoice-dollar"></i> Asistente Virtual Estados de Cuenta
+                        </h4>
+                        <p style="margin-bottom: 15px;"><strong>Comunicación automatizada:</strong> Generación y envío de consolidaciones mensuales.</p>
+                        
+                        <div style="background: rgba(95, 39, 205, 0.05); padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                            <h5 style="color: #5f27cd; margin-bottom: 10px;">Funcionalidades:</h5>
+                            <ul class="styled-list" style="margin-bottom: 0;">
+                                <li>Generación automática de estados de cuenta</li>
+                                <li>Consolidación mensual en formato PDF</li>
+                                <li>Envío programado a clientes</li>
+                                <li>Trazabilidad de entregas</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap;">
+                            <span style="background: linear-gradient(135deg, #5f27cd, #a55eea); color: white; padding: 4px 8px; border-radius: 15px; font-size: 0.8rem;">UiPath</span>
+                            <span style="background: linear-gradient(135deg, #5f27cd, #a55eea); color: white; padding: 4px 8px; border-radius: 15px; font-size: 0.8rem;">Automated Reports</span>
+                            <span style="background: linear-gradient(135deg, #5f27cd, #a55eea); color: white; padding: 4px 8px; border-radius: 15px; font-size: 0.8rem;">Email Automation</span>
+                        </div>
+                        
+                        <p style="font-style: italic; color: var(--text-light); margin-bottom: 0;"><strong>Impacto:</strong> Redujo carga de trabajo manual del área de servicio al cliente y mejoró puntualidad de respuestas.</p>
+                    </div>
+
+                    <div class="card">
+                        <h4 style="color: var(--secondary-color); margin-bottom: 15px;">
+                            <i class="fas fa-shield-alt"></i> Asistente Virtual Control de Acceso
+                        </h4>
+                        <p style="margin-bottom: 15px;"><strong>Seguridad automatizada:</strong> Validación inteligente de accesos y documentación.</p>
+                        
+                        <div style="background: rgba(95, 39, 205, 0.05); padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                            <h5 style="color: #5f27cd; margin-bottom: 10px;">Sistema de validación:</h5>
+                            <ul class="styled-list" style="margin-bottom: 0;">
+                                <li>Validación automática de documentación</li>
+                                <li>Verificación de fechas y restricciones</li>
+                                <li>Consultas en plataformas públicas</li>
+                                <li>Aprobaciones/rechazos automáticos</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap;">
+                            <span style="background: linear-gradient(135deg, #5f27cd, #a55eea); color: white; padding: 4px 8px; border-radius: 15px; font-size: 0.8rem;">UiPath</span>
+                            <span style="background: linear-gradient(135deg, #5f27cd, #a55eea); color: white; padding: 4px 8px; border-radius: 15px; font-size: 0.8rem;">Web Scraping</span>
+                            <span style="background: linear-gradient(135deg, #5f27cd, #a55eea); color: white; padding: 4px 8px; border-radius: 15px; font-size: 0.8rem;">Security</span>
+                        </div>
+                        
+                        <p style="font-style: italic; color: var(--text-light); margin-bottom: 0;"><strong>Impacto:</strong> Optimizó gestión de accesos en empresas con alto flujo de personal externo, mejorando seguridad y reduciendo errores.</p>
+                    </div>
+
+                    <div class="card">
+                        <h4 style="color: var(--secondary-color); margin-bottom: 15px;">
+                            <i class="fas fa-users"></i> Asistente Virtual Terceros
+                        </h4>
+                        <p style="margin-bottom: 15px;"><strong>Integración de datos:</strong> Extracción desde API externa y registro automático en Odoo.</p>
+                        
+                        <div style="background: rgba(95, 39, 205, 0.05); padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                            <h5 style="color: #5f27cd; margin-bottom: 10px;">Proceso de integración:</h5>
+                            <ul class="styled-list" style="margin-bottom: 0;">
+                                <li>Extracción de datos desde API externa</li>
+                                <li>Validaciones propias del ERP Odoo</li>
+                                <li>Generación automática de registros</li>
+                                <li>Garantía de integridad de datos</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap;">
+                            <span style="background: linear-gradient(135deg, #5f27cd, #a55eea); color: white; padding: 4px 8px; border-radius: 15px; font-size: 0.8rem;">UiPath</span>
+                            <span style="background: linear-gradient(135deg, #5f27cd, #a55eea); color: white; padding: 4px 8px; border-radius: 15px; font-size: 0.8rem;">API Integration</span>
+                            <span style="background: linear-gradient(135deg, #5f27cd, #a55eea); color: white; padding: 4px 8px; border-radius: 15px; font-size: 0.8rem;">Odoo</span>
+                        </div>
+                        
+                        <p style="font-style: italic; color: var(--text-light); margin-bottom: 0;"><strong>Impacto:</strong> Aceleró registro de datos de terceros, reduciendo tiempos y garantizando consistencia.</p>
+                    </div>
+                </div>
+
+                <!-- Proyectos Desarrollo Web -->
+                <div class="projects-container" data-category="web-dev" style="display: none;">
+                    <h3 style="color: var(--primary-color); margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-code"></i> Desarrollo Web (Python/Django + Odoo)
+                    </h3>
+
+                    <div class="card">
+                        <h4 style="color: var(--secondary-color); margin-bottom: 15px;">
+                            <i class="fas fa-calendar-check"></i> Gestión de Permisos para Empleados (Django)
+                        </h4>
+                        <p style="margin-bottom: 15px;"><strong>Sistema backend completo</strong> para administración de beneficios y permisos laborales, desarrollado con Python y Django.</p>
+                        
+                        <div style="background: rgba(78, 205, 196, 0.05); padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                            <h5 style="color: #4ecdc4; margin-bottom: 10px;">Funcionalidades implementadas:</h5>
+                            <ul class="styled-list" style="margin-bottom: 0;">
+                                <li>API RESTful para registro de solicitudes de permisos</li>
+                                <li>Sistema de validación de políticas empresariales</li>
+                                <li>Generación de reportes dinámicos para análisis</li>
+                                <li>Dashboard administrativo para supervisión</li>
+                                <li>Integración con sistema de autenticación</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap;">
+                            <span style="background: linear-gradient(135deg, #4ecdc4, #44a08d); color: white; padding: 4px 8px; border-radius: 15px; font-size: 0.8rem;">Python</span>
+                            <span style="background: linear-gradient(135deg, #4ecdc4, #44a08d); color: white; padding: 4px 8px; border-radius: 15px; font-size: 0.8rem;">Django</span>
+                            <span style="background: linear-gradient(135deg, #4ecdc4, #44a08d); color: white; padding: 4px 8px; border-radius: 15px; font-size: 0.8rem;">Django REST Framework</span>
+                            <span style="background: linear-gradient(135deg, #4ecdc4, #44a08d); color: white; padding: 4px 8px; border-radius: 15px; font-size: 0.8rem;">MySQL</span>
+                        </div>
+                        
+                        <p style="font-style: italic; color: var(--text-light); margin-bottom: 0;"><strong>Impacto:</strong> Optimizó administración de permisos, mejorando transparencia y reduciendo tiempos de respuesta en gestión de beneficios.</p>
+                    </div>
+
+                    <div class="card">
+                        <h4 style="color: var(--secondary-color); margin-bottom: 15px;">
+                            <i class="fas fa-cogs"></i> Personalización de Módulos Odoo
+                        </h4>
+                        <p style="margin-bottom: 15px;"><strong>Desarrollo y mantenimiento</strong> de módulos personalizados en Odoo para optimización de procesos empresariales.</p>
+                        
+                        <div style="background: rgba(78, 205, 196, 0.05); padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                            <h5 style="color: #4ecdc4; margin-bottom: 10px;">Trabajos realizados:</h5>
+                            <ul class="styled-list" style="margin-bottom: 0;">
+                                <li><strong>Módulo "Scrum Web":</strong> Inclusión de nuevos campos funcionales</li>
+                                <li>Modificación de reglas de negocio según nuevos requisitos</li>
+                                <li>Ajustes visuales y mejoras en la interfaz de usuario</li>
+                                <li>Corrección de errores y optimización de acciones específicas</li>
+                                <li>Documentación técnica de cambios implementados</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap;">
+                            <span style="background: linear-gradient(135deg, #4ecdc4, #44a08d); color: white; padding: 4px 8px; border-radius: 15px; font-size: 0.8rem;">Odoo</span>
+                            <span style="background: linear-gradient(135deg, #4ecdc4, #44a08d); color: white; padding: 4px 8px; border-radius: 15px; font-size: 0.8rem;">Python</span>
+                            <span style="background: linear-gradient(135deg, #4ecdc4, #44a08d); color: white; padding: 4px 8px; border-radius: 15px; font-size: 0.8rem;">XML</span>
+                            <span style="background: linear-gradient(135deg, #4ecdc4, #44a08d); color: white; padding: 4px 8px; border-radius: 15px; font-size: 0.8rem;">PostgreSQL</span>
+                        </div>
+                        
+                        <p style="font-style: italic; color: var(--text-light); margin-bottom: 0;"><strong>Impacto:</strong> Mejoró usabilidad y funcionalidad de módulos existentes, garantizando experiencia más fluida para usuarios finales.</p>
+                    </div>
+                </div>
+            </section>
         </main>
     </div>
 
