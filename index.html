@@ -592,6 +592,11 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="#proyectos" class="nav-link" onclick="showSection('proyectos', this)">
+                        <i class="fas fa-code-branch"></i> Proyectos
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="#diagrama" class="nav-link" onclick="showSection('diagrama', this)">
                         <i class="fas fa-project-diagram"></i> Red de Skills
                     </a>
@@ -1571,6 +1576,48 @@
             });
 
             networkInitialized = true;
+        }
+
+        // Función para filtrar proyectos
+        function filterProjects(category) {
+            const containers = document.querySelectorAll('.projects-container');
+            const filters = document.querySelectorAll('[id^="filter-"]');
+            
+            // Remover clase activa de todos los filtros
+            filters.forEach(filter => {
+                filter.style.background = 'linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(59, 130, 246, 0.05))';
+                filter.style.transform = 'scale(1)';
+                filter.style.boxShadow = 'none';
+                filter.style.border = 'none';
+            });
+            
+            // Agregar clase activa al filtro seleccionado
+            const activeFilter = document.getElementById(`filter-${category}`);
+            if (activeFilter) {
+                activeFilter.style.background = 'linear-gradient(135deg, rgba(37, 99, 235, 0.2), rgba(59, 130, 246, 0.1))';
+                activeFilter.style.transform = 'scale(1.05)';
+                activeFilter.style.boxShadow = '0 5px 15px rgba(37, 99, 235, 0.3)';
+                activeFilter.style.border = '2px solid rgba(37, 99, 235, 0.3)';
+                activeFilter.style.borderRadius = '10px';
+            }
+            
+            if (category === 'all') {
+                // Mostrar todos los contenedores
+                containers.forEach(container => {
+                    container.style.display = 'block';
+                    container.style.animation = 'fadeIn 0.5s ease';
+                });
+            } else {
+                // Mostrar solo el contenedor seleccionado
+                containers.forEach(container => {
+                    if (container.dataset.category === category) {
+                        container.style.display = 'block';
+                        container.style.animation = 'fadeIn 0.5s ease';
+                    } else {
+                        container.style.display = 'none';
+                    }
+                });
+            }
         }
 
         // Animaciones del CV original
