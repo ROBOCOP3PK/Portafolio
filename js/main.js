@@ -518,10 +518,61 @@ const MobileMenu = {
 };
 
 // ======================
+// DARK MODE MODULE
+// ======================
+const DarkMode = {
+    init() {
+        this.themeToggle = document.getElementById('theme-toggle');
+        this.icon = this.themeToggle.querySelector('i');
+
+        // Check for saved theme preference or default to light mode
+        const currentTheme = localStorage.getItem('theme') || this.getPreferredTheme();
+        this.setTheme(currentTheme);
+
+        // Listen for toggle clicks
+        this.themeToggle.addEventListener('click', () => this.toggleTheme());
+
+        // Listen for system theme changes
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+            if (!localStorage.getItem('theme')) {
+                this.setTheme(e.matches ? 'dark' : 'light');
+            }
+        });
+    },
+
+    getPreferredTheme() {
+        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    },
+
+    setTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        localStorage.setItem('theme', theme);
+        this.updateIcon(theme);
+    },
+
+    toggleTheme() {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        this.setTheme(newTheme);
+    },
+
+    updateIcon(theme) {
+        if (theme === 'dark') {
+            this.icon.classList.remove('fa-moon');
+            this.icon.classList.add('fa-sun');
+        } else {
+            this.icon.classList.remove('fa-sun');
+            this.icon.classList.add('fa-moon');
+        }
+    }
+};
+
+// ======================
 // INITIALIZATION
 // ======================
 document.addEventListener('DOMContentLoaded', () => {
     Navigation.init();
     Animations.init();
     MobileMenu.init();
+    DarkMode.init();
 });

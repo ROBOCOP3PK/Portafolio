@@ -15,13 +15,36 @@
     --border-color: #e5e7eb;
     --gradient: linear-gradient(135deg, #2563eb 0%, #0ea5e9 100%);
     --shadow: 0 10px 25px rgba(0,0,0,0.1);
+    --bg-color: #f8fafc;
+    --card-bg: #ffffff;
+    --footer-bg: #1f2937;
+    --hero-overlay: rgba(0, 0, 0, 0);
+}
+
+/* Dark Mode Variables */
+[data-theme="dark"] {
+    --primary-color: #3b82f6;
+    --secondary-color: #60a5fa;
+    --accent-color: #93c5fd;
+    --dark-color: #e5e7eb;
+    --light-color: #0f172a;
+    --text-dark: #e5e7eb;
+    --text-light: #94a3b8;
+    --border-color: #334155;
+    --gradient: linear-gradient(135deg, #1e40af 0%, #0369a1 100%);
+    --shadow: 0 10px 25px rgba(0,0,0,0.5);
+    --bg-color: #0f172a;
+    --card-bg: #1e293b;
+    --footer-bg: #020617;
+    --hero-overlay: rgba(0, 0, 0, 0.3);
 }
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
     color: var(--text-dark);
-    background: var(--light-color);
+    background: var(--bg-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Skip Link for Accessibility */
@@ -59,6 +82,17 @@ body {
     bottom: 0;
     background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" fill="white" opacity="0.1"><polygon points="0,100 0,0 1000,0 1000,80"/></svg>');
     background-size: cover;
+}
+
+.hero::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--hero-overlay);
+    pointer-events: none;
 }
 
 .hero-content {
@@ -175,7 +209,7 @@ body {
 
 /* Navigation */
 .nav-tabs {
-    background: white;
+    background: var(--card-bg);
     box-shadow: var(--shadow);
     position: sticky;
     top: 0;
@@ -183,6 +217,7 @@ body {
     margin-top: -50px;
     border-radius: 15px 15px 0 0;
     overflow: hidden;
+    transition: background-color 0.3s ease;
 }
 
 .nav-list {
@@ -221,10 +256,11 @@ body {
 
 /* Content Sections */
 .content {
-    background: white;
+    background: var(--card-bg);
     box-shadow: var(--shadow);
     margin-bottom: 0;
     min-height: 600px;
+    transition: background-color 0.3s ease;
 }
 
 .section {
@@ -415,7 +451,7 @@ body {
 
 /* Cards */
 .card {
-    background: white;
+    background: var(--card-bg);
     border-radius: 15px;
     padding: 25px;
     margin-bottom: 20px;
@@ -515,11 +551,12 @@ body {
 
 /* Footer */
 footer {
-    background: var(--dark-color);
+    background: var(--footer-bg);
     color: white;
     text-align: center;
     padding: 30px 0;
     margin-top: 0;
+    transition: background-color 0.3s ease;
 }
 
 /* WhatsApp Floating Button */
@@ -568,6 +605,40 @@ footer {
 
 .whatsapp-float {
     animation: pulse-whatsapp 2s infinite;
+}
+
+/* Dark Mode Toggle Button */
+.theme-toggle {
+    position: fixed;
+    width: 60px;
+    height: 60px;
+    bottom: 100px;
+    right: 30px;
+    background: var(--card-bg);
+    color: var(--text-dark);
+    border: 2px solid var(--border-color);
+    border-radius: 50%;
+    text-align: center;
+    font-size: 24px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.theme-toggle:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.theme-toggle i {
+    margin: 0;
 }
 
 /* Hamburger Menu */
@@ -628,6 +699,15 @@ footer {
         bottom: 20px;
         right: 20px;
         font-size: 28px;
+    }
+
+    /* Theme toggle ajustado para móvil */
+    .theme-toggle {
+        width: 55px;
+        height: 55px;
+        bottom: 85px;
+        right: 20px;
+        font-size: 22px;
     }
 
     .hamburger {
