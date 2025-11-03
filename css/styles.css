@@ -13,7 +13,7 @@
     --text-dark: #374151;
     --text-light: #6b7280;
     --border-color: #e5e7eb;
-    --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --gradient: linear-gradient(135deg, #2563eb 0%, #0ea5e9 100%);
     --shadow: 0 10px 25px rgba(0,0,0,0.1);
 }
 
@@ -309,12 +309,12 @@ body {
 }
 
 /* Categorías principales */
-.frontend { background: linear-gradient(135deg, #ff6b6b, #ee5a24); }
-.backend { background: linear-gradient(135deg, #4ecdc4, #44a08d); }
-.database { background: linear-gradient(135deg, #feca57, #ff9ff3); }
-.automation { background: linear-gradient(135deg, #5f27cd, #a55eea); }
-.tools { background: linear-gradient(135deg, #54a0ff, #2e86de); }
-.methodologies { background: linear-gradient(135deg, #26de81, #20bf6b); }
+.frontend { background: linear-gradient(135deg, #3b82f6, #2563eb); }
+.backend { background: linear-gradient(135deg, #0ea5e9, #0284c7); }
+.database { background: linear-gradient(135deg, #06b6d4, #0891b2); }
+.automation { background: linear-gradient(135deg, #2563eb, #1e40af); }
+.tools { background: linear-gradient(135deg, #1d4ed8, #1e3a8a); }
+.methodologies { background: linear-gradient(135deg, #0284c7, #075985); }
 
 .center-node {
     font-size: 14px;
@@ -522,6 +522,54 @@ footer {
     margin-top: 0;
 }
 
+/* WhatsApp Floating Button */
+.whatsapp-float {
+    position: fixed;
+    width: 60px;
+    height: 60px;
+    bottom: 30px;
+    right: 30px;
+    background-color: #25d366;
+    color: white;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 30px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.whatsapp-float:hover {
+    background-color: #128c7e;
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+}
+
+.whatsapp-float i {
+    margin: 0;
+    line-height: 60px;
+}
+
+@keyframes pulse-whatsapp {
+    0% {
+        box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 15px rgba(37, 211, 102, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+    }
+}
+
+.whatsapp-float {
+    animation: pulse-whatsapp 2s infinite;
+}
+
 /* Hamburger Menu */
 .hamburger {
     display: none;
@@ -571,6 +619,15 @@ footer {
     .contact-info {
         flex-direction: column;
         gap: 15px;
+    }
+
+    /* WhatsApp button ajustado para móvil */
+    .whatsapp-float {
+        width: 55px;
+        height: 55px;
+        bottom: 20px;
+        right: 20px;
+        font-size: 28px;
     }
 
     .hamburger {
