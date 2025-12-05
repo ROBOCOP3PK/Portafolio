@@ -42,6 +42,9 @@
 
     <!-- Main Stylesheet -->
     <link href="css/styles.css" rel="stylesheet">
+
+    <!-- jsPDF for CV Generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
     <!-- Skip Link for Accessibility -->
@@ -65,9 +68,9 @@
                 </div>
             </div>
             
-            <a href="assets/pdf/CV-David-Gonzalez.pdf" class="btn-download" download="David_Gonzalez_CV.pdf" aria-label="Descargar curriculum vitae en formato PDF">
+            <button class="btn-download" onclick="CVGenerator.generate()" aria-label="Descargar curriculum vitae en formato PDF">
                 <i class="fas fa-download"></i> Descargar CV
-            </a>
+            </button>
 
             <div class="social-links">
                 <a href="https://www.linkedin.com/in/david-steven-gonzalez-padilla" target="_blank" rel="noopener noreferrer" aria-label="Perfil de LinkedIn de David Gonzalez">

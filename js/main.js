@@ -634,6 +634,330 @@ function closeImageModal() {
 }
 
 // ======================
+// CV GENERATOR MODULE
+// ======================
+const CVGenerator = {
+    // Colores del tema
+    colors: {
+        primary: [37, 99, 235],      // Azul principal
+        dark: [30, 41, 59],          // Texto oscuro
+        gray: [100, 116, 139],       // Texto secundario
+        light: [241, 245, 249],      // Fondo claro
+        white: [255, 255, 255]
+    },
+
+    // Datos del CV
+    data: {
+        personal: {
+            nombre: 'David Steven Gonzalez Padilla',
+            titulo: 'Desarrollador Full Stack | Laravel + Vue.js',
+            telefono: '+57 305 759 4088',
+            email: 'davidsgonzalez98@hotmail.com',
+            ubicacion: 'Bogota, Colombia',
+            linkedin: 'linkedin.com/in/david-steven-gonzalez-padilla',
+            github: 'github.com/ROBOCOP3PK'
+        },
+        perfil: 'Desarrollador Full Stack con mas de 3 anos de experiencia creando soluciones web para el sector publico y empresarial. Especializado en Laravel y Vue.js, con solida experiencia en automatizacion de procesos (RPA) y desarrollo de aplicaciones empresariales con Power Platform. Enfoque en codigo limpio, buenas practicas y entrega de valor.',
+        experiencia: [
+            {
+                cargo: 'Desarrollador Full Stack',
+                empresa: 'TurriSystem',
+                periodo: 'Dic 2024 - Actualidad',
+                ubicacion: 'Bogota (Hibrido)',
+                logros: [
+                    'Desarrollo de sistemas para el sector publico con Laravel y Vue.js',
+                    'Gestion de bases de datos MySQL y ORACLE',
+                    'Implementacion de APIs RESTful y modulos completos',
+                    'Interfaces responsivas con Tailwind CSS'
+                ]
+            },
+            {
+                cargo: 'Desarrollador RPA',
+                empresa: 'Thomas Greg and Sons',
+                periodo: 'Feb 2023 - Nov 2024',
+                ubicacion: 'Bogota (Hibrido)',
+                logros: [
+                    'Automatizacion de procesos con UiPath y Power Automate',
+                    'Desarrollo de aplicaciones internas con Power Apps',
+                    'Creacion de 5+ asistentes virtuales para procesos criticos',
+                    'Reduccion de tiempos operativos mediante automatizacion'
+                ]
+            },
+            {
+                cargo: 'Auxiliar II Mejora Continua',
+                empresa: 'Thomas Greg and Sons',
+                periodo: 'Sep 2021 - Ene 2023',
+                ubicacion: 'Bogota',
+                logros: [
+                    'Automatizacion de tareas con scripts y macros',
+                    'Apoyo en proyectos de transformacion digital',
+                    'Levantamiento de informacion y casos de usuario'
+                ]
+            }
+        ],
+        educacion: [
+            {
+                titulo: 'Especializacion en Gestion de TI',
+                institucion: 'Universidad CUN',
+                periodo: 'En curso - 2026'
+            },
+            {
+                titulo: 'Ingenieria Electronica',
+                institucion: 'Universidad Cooperativa de Colombia',
+                periodo: 'Finalizada - 2022'
+            }
+        ],
+        habilidades: {
+            tecnicas: [
+                'PHP / Laravel',
+                'JavaScript / Vue.js',
+                'MySQL / ORACLE',
+                'Tailwind CSS',
+                'Python / Django',
+                'Git / Postman',
+                'UiPath / Power Automate',
+                'Power Apps / Dataverse'
+            ],
+            blandas: [
+                'Resolucion de problemas',
+                'Trabajo en equipo',
+                'Comunicacion efectiva',
+                'Adaptacion al cambio'
+            ]
+        },
+        idiomas: [
+            { idioma: 'Espanol', nivel: 'Nativo' },
+            { idioma: 'Ingles', nivel: 'B2 - Intermedio' }
+        ],
+        certificaciones: [
+            'Six Sigma - Universidad EAN',
+            'UiPath Developer - UiPath Academy',
+            'Power Apps - Microsoft Learn'
+        ]
+    },
+
+    generate() {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF('p', 'mm', 'a4');
+        const pageWidth = 210;
+        const pageHeight = 297;
+        const margin = 15;
+        const contentWidth = pageWidth - (margin * 2);
+        let y = 0;
+
+        // === HEADER CON FONDO AZUL ===
+        doc.setFillColor(...this.colors.primary);
+        doc.rect(0, 0, pageWidth, 52, 'F');
+
+        // Nombre
+        doc.setTextColor(...this.colors.white);
+        doc.setFontSize(24);
+        doc.setFont('helvetica', 'bold');
+        doc.text(this.data.personal.nombre, margin, 20);
+
+        // Titulo profesional
+        doc.setFontSize(12);
+        doc.setFont('helvetica', 'normal');
+        doc.text(this.data.personal.titulo, margin, 28);
+
+        // Informacion de contacto en header
+        doc.setFontSize(9);
+        const contactLine1 = `${this.data.personal.telefono}  |  ${this.data.personal.email}  |  ${this.data.personal.ubicacion}`;
+        const contactLine2 = `${this.data.personal.linkedin}  |  ${this.data.personal.github}`;
+        doc.text(contactLine1, margin, 38);
+        doc.text(contactLine2, margin, 44);
+
+        y = 60;
+
+        // === PERFIL PROFESIONAL ===
+        y = this.addSection(doc, 'PERFIL PROFESIONAL', y, margin);
+        doc.setTextColor(...this.colors.dark);
+        doc.setFontSize(10);
+        doc.setFont('helvetica', 'normal');
+        const perfilLines = doc.splitTextToSize(this.data.perfil, contentWidth);
+        doc.text(perfilLines, margin, y);
+        y += perfilLines.length * 5 + 8;
+
+        // === EXPERIENCIA LABORAL ===
+        y = this.addSection(doc, 'EXPERIENCIA LABORAL', y, margin);
+
+        this.data.experiencia.forEach(exp => {
+            // Check if we need a new page
+            if (y > pageHeight - 50) {
+                doc.addPage();
+                y = 20;
+            }
+
+            // Cargo y empresa
+            doc.setTextColor(...this.colors.dark);
+            doc.setFontSize(11);
+            doc.setFont('helvetica', 'bold');
+            doc.text(exp.cargo, margin, y);
+
+            doc.setFontSize(10);
+            doc.setFont('helvetica', 'normal');
+            doc.setTextColor(...this.colors.primary);
+            doc.text(exp.empresa, margin, y + 5);
+
+            // Periodo y ubicacion (alineado a la derecha)
+            doc.setTextColor(...this.colors.gray);
+            doc.setFontSize(9);
+            const periodoText = `${exp.periodo} | ${exp.ubicacion}`;
+            const periodoWidth = doc.getTextWidth(periodoText);
+            doc.text(periodoText, pageWidth - margin - periodoWidth, y);
+
+            y += 12;
+
+            // Logros
+            doc.setTextColor(...this.colors.dark);
+            doc.setFontSize(9);
+            exp.logros.forEach(logro => {
+                doc.text(`•  ${logro}`, margin + 3, y);
+                y += 4.5;
+            });
+
+            y += 6;
+        });
+
+        // === DOS COLUMNAS: EDUCACION Y HABILIDADES ===
+        if (y > pageHeight - 80) {
+            doc.addPage();
+            y = 20;
+        }
+
+        const colWidth = (contentWidth - 10) / 2;
+        const leftCol = margin;
+        const rightCol = margin + colWidth + 10;
+        let yLeft = y;
+        let yRight = y;
+
+        // COLUMNA IZQUIERDA: EDUCACION
+        yLeft = this.addSection(doc, 'EDUCACION', yLeft, leftCol, colWidth);
+
+        this.data.educacion.forEach(edu => {
+            doc.setTextColor(...this.colors.dark);
+            doc.setFontSize(10);
+            doc.setFont('helvetica', 'bold');
+            const tituloLines = doc.splitTextToSize(edu.titulo, colWidth);
+            doc.text(tituloLines, leftCol, yLeft);
+            yLeft += tituloLines.length * 4;
+
+            doc.setFont('helvetica', 'normal');
+            doc.setTextColor(...this.colors.primary);
+            doc.setFontSize(9);
+            doc.text(edu.institucion, leftCol, yLeft);
+            yLeft += 4;
+
+            doc.setTextColor(...this.colors.gray);
+            doc.text(edu.periodo, leftCol, yLeft);
+            yLeft += 8;
+        });
+
+        // Certificaciones
+        yLeft += 4;
+        doc.setTextColor(...this.colors.primary);
+        doc.setFontSize(10);
+        doc.setFont('helvetica', 'bold');
+        doc.text('CERTIFICACIONES', leftCol, yLeft);
+        yLeft += 6;
+
+        doc.setTextColor(...this.colors.dark);
+        doc.setFontSize(9);
+        doc.setFont('helvetica', 'normal');
+        this.data.certificaciones.forEach(cert => {
+            doc.text(`•  ${cert}`, leftCol, yLeft);
+            yLeft += 4.5;
+        });
+
+        // COLUMNA DERECHA: HABILIDADES
+        yRight = this.addSection(doc, 'HABILIDADES TECNICAS', yRight, rightCol, colWidth);
+
+        doc.setTextColor(...this.colors.dark);
+        doc.setFontSize(9);
+        doc.setFont('helvetica', 'normal');
+
+        // Skills en dos sub-columnas
+        const skillsPerCol = Math.ceil(this.data.habilidades.tecnicas.length / 2);
+        const subColWidth = colWidth / 2;
+
+        this.data.habilidades.tecnicas.forEach((skill, index) => {
+            const isLeftSubCol = index < skillsPerCol;
+            const xPos = isLeftSubCol ? rightCol : rightCol + subColWidth;
+            const skillY = yRight + (isLeftSubCol ? index : index - skillsPerCol) * 5;
+            doc.text(`•  ${skill}`, xPos, skillY);
+        });
+
+        yRight += skillsPerCol * 5 + 6;
+
+        // Habilidades blandas
+        doc.setTextColor(...this.colors.primary);
+        doc.setFontSize(10);
+        doc.setFont('helvetica', 'bold');
+        doc.text('HABILIDADES BLANDAS', rightCol, yRight);
+        yRight += 6;
+
+        doc.setTextColor(...this.colors.dark);
+        doc.setFontSize(9);
+        doc.setFont('helvetica', 'normal');
+        this.data.habilidades.blandas.forEach(skill => {
+            doc.text(`•  ${skill}`, rightCol, yRight);
+            yRight += 4.5;
+        });
+
+        yRight += 6;
+
+        // Idiomas
+        doc.setTextColor(...this.colors.primary);
+        doc.setFontSize(10);
+        doc.setFont('helvetica', 'bold');
+        doc.text('IDIOMAS', rightCol, yRight);
+        yRight += 6;
+
+        doc.setTextColor(...this.colors.dark);
+        doc.setFontSize(9);
+        doc.setFont('helvetica', 'normal');
+        this.data.idiomas.forEach(lang => {
+            doc.text(`•  ${lang.idioma}: ${lang.nivel}`, rightCol, yRight);
+            yRight += 4.5;
+        });
+
+        // === FOOTER ===
+        const finalY = Math.max(yLeft, yRight) + 10;
+        if (finalY < pageHeight - 15) {
+            doc.setDrawColor(...this.colors.light);
+            doc.setLineWidth(0.5);
+            doc.line(margin, pageHeight - 12, pageWidth - margin, pageHeight - 12);
+
+            doc.setTextColor(...this.colors.gray);
+            doc.setFontSize(8);
+            doc.text('CV generado desde portafolio web', margin, pageHeight - 7);
+
+            const dateText = new Date().toLocaleDateString('es-CO', { year: 'numeric', month: 'long' });
+            const dateWidth = doc.getTextWidth(dateText);
+            doc.text(dateText, pageWidth - margin - dateWidth, pageHeight - 7);
+        }
+
+        // Descargar
+        doc.save('David_Gonzalez_CV.pdf');
+    },
+
+    addSection(doc, title, y, x, maxWidth = null) {
+        doc.setTextColor(...this.colors.primary);
+        doc.setFontSize(11);
+        doc.setFont('helvetica', 'bold');
+        doc.text(title, x, y);
+
+        // Linea bajo el titulo
+        const titleWidth = maxWidth || doc.getTextWidth(title);
+        doc.setDrawColor(...this.colors.primary);
+        doc.setLineWidth(0.5);
+        doc.line(x, y + 1.5, x + Math.min(titleWidth, 50), y + 1.5);
+
+        return y + 8;
+    }
+};
+
+// ======================
 // INITIALIZATION
 // ======================
 document.addEventListener('DOMContentLoaded', () => {

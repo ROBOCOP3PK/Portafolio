@@ -189,8 +189,11 @@ body {
     border-radius: 50px;
     text-decoration: none;
     font-weight: 600;
+    font-size: 1rem;
+    font-family: inherit;
     transition: all 0.3s ease;
     border: 2px solid rgba(255,255,255,0.3);
+    cursor: pointer;
 }
 
 .btn-download:hover {
