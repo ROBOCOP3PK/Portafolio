@@ -568,6 +568,72 @@ const DarkMode = {
 };
 
 // ======================
+// IMAGE GALLERY MODULE
+// ======================
+const ImageGallery = {
+    changeImage(thumb, projectId) {
+        const gallery = document.querySelector(`.project-gallery[data-project="${projectId}"]`);
+        if (!gallery) return;
+
+        const mainImage = gallery.querySelector('.gallery-main img');
+        const thumbs = gallery.querySelectorAll('.thumb');
+
+        // Update main image
+        mainImage.src = thumb.src;
+        mainImage.alt = thumb.alt;
+
+        // Update active thumb
+        thumbs.forEach(t => t.classList.remove('active'));
+        thumb.classList.add('active');
+    },
+
+    openModal(imageSrc) {
+        const modal = document.getElementById('imageModal');
+        const modalImage = document.getElementById('modalImage');
+
+        modalImage.src = imageSrc;
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    },
+
+    closeModal() {
+        const modal = document.getElementById('imageModal');
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+    },
+
+    init() {
+        // Close modal on ESC key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                this.closeModal();
+            }
+        });
+
+        // Prevent modal close when clicking on image
+        const modalImage = document.getElementById('modalImage');
+        if (modalImage) {
+            modalImage.addEventListener('click', (e) => {
+                e.stopPropagation();
+            });
+        }
+    }
+};
+
+// Global functions for onclick compatibility
+function changeGalleryImage(thumb, projectId) {
+    ImageGallery.changeImage(thumb, projectId);
+}
+
+function openImageModal(imageSrc) {
+    ImageGallery.openModal(imageSrc);
+}
+
+function closeImageModal() {
+    ImageGallery.closeModal();
+}
+
+// ======================
 // INITIALIZATION
 // ======================
 document.addEventListener('DOMContentLoaded', () => {
@@ -575,4 +641,5 @@ document.addEventListener('DOMContentLoaded', () => {
     Animations.init();
     MobileMenu.init();
     DarkMode.init();
+    ImageGallery.init();
 });
