@@ -732,7 +732,10 @@ const CVGenerator = {
         certificaciones: [
             'Six Sigma - Universidad EAN',
             'UiPath Developer - UiPath Academy',
-            'Power Apps - Microsoft Learn'
+            'Power Apps - Microsoft Learn',
+            'Python - Uniagustiniana',
+            'AutoCAD 2D - SENA',
+            'IoT Fundamentals - Cisco'
         ]
     },
 
