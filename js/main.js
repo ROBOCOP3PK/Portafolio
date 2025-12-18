@@ -653,21 +653,21 @@ const CVGenerator = {
             titulo: 'Desarrollador Full Stack | Laravel + Vue.js',
             telefono: '+57 305 759 4088',
             email: 'davidsgonzalez98@hotmail.com',
-            ubicacion: 'Bogota, Colombia',
+            ubicacion: 'Bogotá, Colombia',
             linkedin: 'linkedin.com/in/david-steven-gonzalez-padilla',
             github: 'github.com/ROBOCOP3PK'
         },
-        perfil: 'Desarrollador Full Stack con mas de 3 anos de experiencia creando soluciones web para el sector publico y empresarial. Especializado en Laravel y Vue.js, con solida experiencia en automatizacion de procesos (RPA) y desarrollo de aplicaciones empresariales con Power Platform. Enfoque en codigo limpio, buenas practicas y entrega de valor.',
+        perfil: 'Desarrollador Full Stack con más de 3 años de experiencia creando soluciones web para el sector público y empresarial. Especializado en Laravel y Vue.js, con sólida experiencia en automatización de procesos (RPA) y desarrollo de aplicaciones empresariales con Power Platform. Enfoque en código limpio, buenas prácticas y entrega de valor.',
         experiencia: [
             {
                 cargo: 'Desarrollador Full Stack',
                 empresa: 'TurriSystem',
                 periodo: 'Dic 2024 - Actualidad',
-                ubicacion: 'Bogota (Hibrido)',
+                ubicacion: 'Bogotá (Híbrido)',
                 logros: [
-                    'Desarrollo de sistemas para el sector publico con Laravel y Vue.js',
-                    'Gestion de bases de datos MySQL y ORACLE',
-                    'Implementacion de APIs RESTful y modulos completos',
+                    'Desarrollo de sistemas para el sector público con Laravel y Vue.js',
+                    'Gestión de bases de datos MySQL y ORACLE',
+                    'Implementación de APIs RESTful y módulos completos',
                     'Interfaces responsivas con Tailwind CSS'
                 ]
             },
@@ -675,34 +675,34 @@ const CVGenerator = {
                 cargo: 'Desarrollador RPA',
                 empresa: 'Thomas Greg and Sons',
                 periodo: 'Feb 2023 - Nov 2024',
-                ubicacion: 'Bogota (Hibrido)',
+                ubicacion: 'Bogotá (Híbrido)',
                 logros: [
-                    'Automatizacion de procesos con UiPath y Power Automate',
+                    'Automatización de procesos con UiPath y Power Automate',
                     'Desarrollo de aplicaciones internas con Power Apps',
-                    'Creacion de 5+ asistentes virtuales para procesos criticos',
-                    'Reduccion de tiempos operativos mediante automatizacion'
+                    'Creación de 5+ asistentes virtuales para procesos críticos',
+                    'Reducción de tiempos operativos mediante automatización'
                 ]
             },
             {
                 cargo: 'Auxiliar II Mejora Continua',
                 empresa: 'Thomas Greg and Sons',
                 periodo: 'Sep 2021 - Ene 2023',
-                ubicacion: 'Bogota',
+                ubicacion: 'Bogotá',
                 logros: [
-                    'Automatizacion de tareas con scripts y macros',
-                    'Apoyo en proyectos de transformacion digital',
-                    'Levantamiento de informacion y casos de usuario'
+                    'Automatización de tareas con scripts y macros',
+                    'Apoyo en proyectos de transformación digital',
+                    'Levantamiento de información y casos de usuario'
                 ]
             }
         ],
         educacion: [
             {
-                titulo: 'Especializacion en Gestion de TI',
+                titulo: 'Especialización en Gestión de TI',
                 institucion: 'Universidad CUN',
                 periodo: 'En curso - 2026'
             },
             {
-                titulo: 'Ingenieria Electronica',
+                titulo: 'Ingeniería Electrónica',
                 institucion: 'Universidad Cooperativa de Colombia',
                 periodo: 'Finalizada - 2022'
             }
@@ -719,15 +719,15 @@ const CVGenerator = {
                 'Power Apps / Dataverse'
             ],
             blandas: [
-                'Resolucion de problemas',
+                'Resolución de problemas',
                 'Trabajo en equipo',
-                'Comunicacion efectiva',
-                'Adaptacion al cambio'
+                'Comunicación efectiva',
+                'Adaptación al cambio'
             ]
         },
         idiomas: [
-            { idioma: 'Espanol', nivel: 'Nativo' },
-            { idioma: 'Ingles', nivel: 'B2 - Intermedio' }
+            { idioma: 'Español', nivel: 'Nativo' },
+            { idioma: 'Inglés', nivel: 'B2 - Intermedio' }
         ],
         certificaciones: [
             'Six Sigma - Universidad EAN',
@@ -736,9 +736,13 @@ const CVGenerator = {
         ]
     },
 
-    generate() {
+    async generate() {
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF('p', 'mm', 'a4');
+
+        // Cargar fuentes con soporte UTF-8
+        await window.RobotoFontLoader.initFonts(doc);
+
         const pageWidth = 210;
         const pageHeight = 297;
         const margin = 15;
@@ -752,12 +756,12 @@ const CVGenerator = {
         // Nombre
         doc.setTextColor(...this.colors.white);
         doc.setFontSize(24);
-        doc.setFont('helvetica', 'bold');
+        doc.setFont('Roboto', 'bold');
         doc.text(this.data.personal.nombre, margin, 20);
 
         // Titulo profesional
         doc.setFontSize(12);
-        doc.setFont('helvetica', 'normal');
+        doc.setFont('Roboto', 'normal');
         doc.text(this.data.personal.titulo, margin, 28);
 
         // Informacion de contacto en header
@@ -773,7 +777,7 @@ const CVGenerator = {
         y = this.addSection(doc, 'PERFIL PROFESIONAL', y, margin);
         doc.setTextColor(...this.colors.dark);
         doc.setFontSize(10);
-        doc.setFont('helvetica', 'normal');
+        doc.setFont('Roboto', 'normal');
         const perfilLines = doc.splitTextToSize(this.data.perfil, contentWidth);
         doc.text(perfilLines, margin, y);
         y += perfilLines.length * 5 + 8;
@@ -791,11 +795,11 @@ const CVGenerator = {
             // Cargo y empresa
             doc.setTextColor(...this.colors.dark);
             doc.setFontSize(11);
-            doc.setFont('helvetica', 'bold');
+            doc.setFont('Roboto', 'bold');
             doc.text(exp.cargo, margin, y);
 
             doc.setFontSize(10);
-            doc.setFont('helvetica', 'normal');
+            doc.setFont('Roboto', 'normal');
             doc.setTextColor(...this.colors.primary);
             doc.text(exp.empresa, margin, y + 5);
 
@@ -832,17 +836,17 @@ const CVGenerator = {
         let yRight = y;
 
         // COLUMNA IZQUIERDA: EDUCACION
-        yLeft = this.addSection(doc, 'EDUCACION', yLeft, leftCol, colWidth);
+        yLeft = this.addSection(doc, 'EDUCACIÓN', yLeft, leftCol, colWidth);
 
         this.data.educacion.forEach(edu => {
             doc.setTextColor(...this.colors.dark);
             doc.setFontSize(10);
-            doc.setFont('helvetica', 'bold');
+            doc.setFont('Roboto', 'bold');
             const tituloLines = doc.splitTextToSize(edu.titulo, colWidth);
             doc.text(tituloLines, leftCol, yLeft);
             yLeft += tituloLines.length * 4;
 
-            doc.setFont('helvetica', 'normal');
+            doc.setFont('Roboto', 'normal');
             doc.setTextColor(...this.colors.primary);
             doc.setFontSize(9);
             doc.text(edu.institucion, leftCol, yLeft);
@@ -857,24 +861,24 @@ const CVGenerator = {
         yLeft += 4;
         doc.setTextColor(...this.colors.primary);
         doc.setFontSize(10);
-        doc.setFont('helvetica', 'bold');
+        doc.setFont('Roboto', 'bold');
         doc.text('CERTIFICACIONES', leftCol, yLeft);
         yLeft += 6;
 
         doc.setTextColor(...this.colors.dark);
         doc.setFontSize(9);
-        doc.setFont('helvetica', 'normal');
+        doc.setFont('Roboto', 'normal');
         this.data.certificaciones.forEach(cert => {
             doc.text(`•  ${cert}`, leftCol, yLeft);
             yLeft += 4.5;
         });
 
         // COLUMNA DERECHA: HABILIDADES
-        yRight = this.addSection(doc, 'HABILIDADES TECNICAS', yRight, rightCol, colWidth);
+        yRight = this.addSection(doc, 'HABILIDADES TÉCNICAS', yRight, rightCol, colWidth);
 
         doc.setTextColor(...this.colors.dark);
         doc.setFontSize(9);
-        doc.setFont('helvetica', 'normal');
+        doc.setFont('Roboto', 'normal');
 
         // Skills en dos sub-columnas
         const skillsPerCol = Math.ceil(this.data.habilidades.tecnicas.length / 2);
@@ -892,13 +896,13 @@ const CVGenerator = {
         // Habilidades blandas
         doc.setTextColor(...this.colors.primary);
         doc.setFontSize(10);
-        doc.setFont('helvetica', 'bold');
+        doc.setFont('Roboto', 'bold');
         doc.text('HABILIDADES BLANDAS', rightCol, yRight);
         yRight += 6;
 
         doc.setTextColor(...this.colors.dark);
         doc.setFontSize(9);
-        doc.setFont('helvetica', 'normal');
+        doc.setFont('Roboto', 'normal');
         this.data.habilidades.blandas.forEach(skill => {
             doc.text(`•  ${skill}`, rightCol, yRight);
             yRight += 4.5;
@@ -909,13 +913,13 @@ const CVGenerator = {
         // Idiomas
         doc.setTextColor(...this.colors.primary);
         doc.setFontSize(10);
-        doc.setFont('helvetica', 'bold');
+        doc.setFont('Roboto', 'bold');
         doc.text('IDIOMAS', rightCol, yRight);
         yRight += 6;
 
         doc.setTextColor(...this.colors.dark);
         doc.setFontSize(9);
-        doc.setFont('helvetica', 'normal');
+        doc.setFont('Roboto', 'normal');
         this.data.idiomas.forEach(lang => {
             doc.text(`•  ${lang.idioma}: ${lang.nivel}`, rightCol, yRight);
             yRight += 4.5;
@@ -944,7 +948,7 @@ const CVGenerator = {
     addSection(doc, title, y, x, maxWidth = null) {
         doc.setTextColor(...this.colors.primary);
         doc.setFontSize(11);
-        doc.setFont('helvetica', 'bold');
+        doc.setFont('Roboto', 'bold');
         doc.text(title, x, y);
 
         // Linea bajo el titulo
