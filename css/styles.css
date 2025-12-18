@@ -683,41 +683,78 @@ footer {
     }
 
     .hero h1 {
-        font-size: 2rem;
+        font-size: 1.8rem;
     }
 
     .hero .subtitle {
-        font-size: 1.1rem;
+        font-size: 1rem;
     }
 
     .contact-info {
         flex-direction: column;
-        gap: 15px;
+        gap: 10px;
+        font-size: 0.9rem;
+    }
+
+    .profile-image {
+        width: 120px;
+        height: 120px;
     }
 
     /* WhatsApp button ajustado para móvil */
     .whatsapp-float {
-        width: 55px;
-        height: 55px;
-        bottom: 20px;
-        right: 20px;
-        font-size: 28px;
+        width: 50px;
+        height: 50px;
+        bottom: 15px;
+        right: 15px;
+        font-size: 24px;
     }
 
     /* Theme toggle ajustado para móvil */
     .theme-toggle {
-        width: 55px;
-        height: 55px;
-        bottom: 85px;
-        right: 20px;
-        font-size: 22px;
+        width: 50px;
+        height: 50px;
+        bottom: 75px;
+        right: 15px;
+        font-size: 20px;
+    }
+
+    /* Nav tabs en móvil */
+    .nav-tabs {
+        margin-top: -30px;
+        border-radius: 10px 10px 0 0;
+        position: relative;
+        padding-top: 60px;
     }
 
     .hamburger {
         display: flex;
         position: absolute;
-        top: 15px;
+        top: 12px;
         right: 15px;
+        background: var(--primary-color);
+        padding: 12px;
+        border-radius: 8px;
+        z-index: 101;
+    }
+
+    .hamburger span {
+        background: white;
+    }
+
+    .hamburger.active {
+        background: var(--secondary-color);
+    }
+
+    /* Indicador de menú */
+    .nav-tabs::before {
+        content: 'Menú';
+        position: absolute;
+        top: 18px;
+        left: 20px;
+        font-weight: 600;
+        color: var(--primary-color);
+        font-size: 1.1rem;
     }
 
     .nav-list {
@@ -725,23 +762,55 @@ footer {
         max-height: 0;
         overflow: hidden;
         transition: max-height 0.3s ease;
+        background: var(--card-bg);
     }
 
     .nav-list.active {
-        max-height: 500px;
+        max-height: 400px;
+        border-top: 1px solid var(--border-color);
     }
 
     .nav-item {
         min-width: auto;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .nav-item:last-child {
+        border-bottom: none;
+    }
+
+    .nav-link {
+        padding: 18px 20px;
+        text-align: left;
+        font-size: 1rem;
     }
 
     .section {
-        padding: 20px;
+        padding: 20px 15px;
+    }
+
+    .section h2 {
+        font-size: 1.5rem;
+        margin-bottom: 20px;
     }
 
     .section.diagram-section {
         padding: 0;
-        height: 500px;
+        height: 450px;
+    }
+
+    /* Cards en móvil */
+    .card {
+        padding: 20px 15px;
+        margin-bottom: 15px;
+    }
+
+    .job-card {
+        padding-left: 30px;
+    }
+
+    .job-card h3 {
+        font-size: 1.1rem;
     }
 
     .skills-grid {
@@ -749,19 +818,144 @@ footer {
         gap: 15px;
     }
 
+    .skill-tag {
+        font-size: 0.85rem;
+        padding: 5px 10px;
+    }
+
+    /* Diagrama de skills en móvil */
     .node {
+        font-size: 9px;
+        padding: 6px 10px;
+        min-width: 40px;
+        min-height: 40px;
+    }
+
+    .center-node {
         font-size: 10px;
         padding: 8px 12px;
     }
 
+    .tech-node {
+        font-size: 8px;
+        padding: 5px 8px;
+    }
+
+    .diagram-legend {
+        display: none;
+    }
+
+    .diagram-title {
+        top: 10px;
+        right: 10px;
+    }
+
+    .diagram-title h3 {
+        font-size: 14px;
+    }
+
+    .diagram-title p {
+        font-size: 10px;
+    }
+
+    /* Content area */
+    .content {
+        min-height: auto;
+    }
+
+    /* Footer en móvil */
+    footer {
+        padding: 20px 15px;
+        font-size: 0.85rem;
+    }
+
+    /* Listas */
+    .styled-list li {
+        padding: 8px 0 8px 20px;
+        font-size: 0.95rem;
+    }
+}
+
+/* Pantallas muy pequeñas (teléfonos) */
+@media (max-width: 480px) {
+    .hero h1 {
+        font-size: 1.5rem;
+    }
+
+    .hero .subtitle {
+        font-size: 0.9rem;
+    }
+
+    .contact-item {
+        font-size: 0.85rem;
+    }
+
+    .social-links a {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+    }
+
+    .btn-download {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+
+    .nav-tabs::before {
+        font-size: 1rem;
+    }
+
+    .section h2 {
+        font-size: 1.3rem;
+        padding-left: 15px;
+    }
+
+    .section h2::before {
+        width: 3px;
+        height: 25px;
+    }
+
+    .job-card h3 {
+        font-size: 1rem;
+    }
+
+    .job-meta {
+        font-size: 0.85rem;
+    }
+
+    .card p, .card li {
+        font-size: 0.9rem;
+    }
+
+    /* Diagrama aún más compacto */
+    .section.diagram-section {
+        height: 350px;
+    }
+
+    .network {
+        width: 95%;
+        height: 95%;
+    }
+
+    .node {
+        font-size: 7px;
+        padding: 4px 6px;
+        min-width: 35px;
+        min-height: 35px;
+    }
+
     .center-node {
-        font-size: 12px;
-        padding: 10px 14px;
+        font-size: 8px;
+        padding: 6px 8px;
     }
 
     .tech-node {
-        font-size: 8px;
-        padding: 6px 10px;
+        font-size: 6px;
+        padding: 3px 5px;
+    }
+
+    .diagram-title {
+        display: none;
     }
 }
 

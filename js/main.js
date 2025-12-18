@@ -973,4 +973,10 @@ document.addEventListener('DOMContentLoaded', () => {
     MobileMenu.init();
     DarkMode.init();
     ImageGallery.init();
+
+    // Set current year in footer
+    const yearElement = document.getElementById('current-year');
+    if (yearElement) {
+        yearElement.textContent = new Date().getFullYear();
+    }
 });
