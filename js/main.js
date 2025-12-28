@@ -484,92 +484,183 @@ const Animations = {
 };
 
 // ======================
-// MOBILE MENU MODULE
+// MOBILE CAROUSEL MODULE
 // ======================
-const MobileMenu = {
-    hamburger: null,
-    navList: null,
-    overlay: null,
-    sectionLabel: null,
+const MobileCarousel = {
+    sections: [],
+    dots: [],
+    currentIndex: 0,
+    content: null,
+    indicator: null,
+    isMobile: false,
+
+    sectionData: [
+        { id: 'perfil', name: 'Perfil', icon: 'fa-user' },
+        { id: 'experiencia', name: 'Experiencia', icon: 'fa-briefcase' },
+        { id: 'educacion', name: 'Educación', icon: 'fa-graduation-cap' },
+        { id: 'habilidades', name: 'Habilidades', icon: 'fa-cogs' },
+        { id: 'proyectos', name: 'Proyectos', icon: 'fa-code-branch' },
+        { id: 'diagrama', name: 'Skills', icon: 'fa-project-diagram' }
+    ],
 
     init() {
-        const nav = document.querySelector('.nav-tabs');
-        if (!nav) return;
+        this.content = document.querySelector('.content');
+        this.sections = document.querySelectorAll('.section');
 
-        // Create hamburger button
-        this.hamburger = document.createElement('button');
-        this.hamburger.className = 'hamburger';
-        this.hamburger.setAttribute('aria-label', 'Abrir menú de navegación');
-        this.hamburger.innerHTML = '<span></span><span></span><span></span>';
-        nav.appendChild(this.hamburger);
+        if (!this.content || this.sections.length === 0) return;
 
-        // Create overlay
-        this.overlay = document.createElement('div');
-        this.overlay.className = 'sidebar-overlay';
-        document.body.appendChild(this.overlay);
-
-        // Create current section label
-        this.sectionLabel = document.createElement('div');
-        this.sectionLabel.className = 'current-section-label';
-        this.updateSectionLabel('Perfil', 'fa-user');
-        nav.appendChild(this.sectionLabel);
-
-        this.navList = document.querySelector('.nav-list');
-
-        // Toggle menu on hamburger click
-        this.hamburger.addEventListener('click', () => this.toggleMenu());
-
-        // Close menu when clicking overlay
-        this.overlay.addEventListener('click', () => this.closeMenu());
-
-        // Close menu when clicking a nav link and update section label
-        const navLinks = document.querySelectorAll('.nav-link');
-        navLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                const text = link.textContent.trim();
-                const icon = link.querySelector('i');
-                const iconClass = icon ? icon.className.replace('fas ', '') : 'fa-circle';
-                this.updateSectionLabel(text, iconClass);
-                this.closeMenu();
-            });
-        });
-
-        // Close menu on escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && this.navList.classList.contains('active')) {
-                this.closeMenu();
-            }
-        });
+        this.checkMobile();
+        window.addEventListener('resize', () => this.checkMobile());
     },
 
-    toggleMenu() {
-        const isOpen = this.navList.classList.contains('active');
-        if (isOpen) {
-            this.closeMenu();
-        } else {
-            this.openMenu();
+    checkMobile() {
+        const wasMobile = this.isMobile;
+        this.isMobile = window.innerWidth <= 768;
+
+        if (this.isMobile && !wasMobile) {
+            this.setupCarousel();
+        } else if (!this.isMobile && wasMobile) {
+            this.destroyCarousel();
         }
     },
 
-    openMenu() {
-        this.hamburger.classList.add('active');
-        this.navList.classList.add('active');
-        this.overlay.classList.add('active');
-        this.hamburger.setAttribute('aria-label', 'Cerrar menú de navegación');
-        document.body.style.overflow = 'hidden';
+    setupCarousel() {
+        const nav = document.querySelector('.nav-tabs');
+        if (!nav) return;
+
+        // Create dots navigation
+        const dotsContainer = document.createElement('div');
+        dotsContainer.className = 'mobile-nav-dots';
+
+        this.sectionData.forEach((section, index) => {
+            const dot = document.createElement('button');
+            dot.className = 'nav-dot' + (index === 0 ? ' active' : '');
+            dot.innerHTML = `<i class="fas ${section.icon}"></i>`;
+            dot.setAttribute('aria-label', section.name);
+            dot.setAttribute('title', section.name);
+            dot.addEventListener('click', () => this.goToSection(index));
+            dotsContainer.appendChild(dot);
+            this.dots.push(dot);
+        });
+
+        nav.insertBefore(dotsContainer, nav.firstChild);
+
+        // Create section indicator
+        this.indicator = document.createElement('div');
+        this.indicator.className = 'carousel-indicator';
+        this.updateIndicator(0);
+        nav.appendChild(this.indicator);
+
+        // Create navigation arrows
+        const arrows = document.createElement('div');
+        arrows.className = 'carousel-arrows';
+        arrows.innerHTML = `
+            <button class="carousel-arrow prev" aria-label="Anterior">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="carousel-arrow next" aria-label="Siguiente">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        `;
+        document.body.appendChild(arrows);
+
+        this.prevBtn = arrows.querySelector('.prev');
+        this.nextBtn = arrows.querySelector('.next');
+
+        this.prevBtn.addEventListener('click', () => this.navigate(-1));
+        this.nextBtn.addEventListener('click', () => this.navigate(1));
+
+        // Show swipe hint on first visit
+        if (!localStorage.getItem('swipeHintShown')) {
+            this.showSwipeHint();
+            localStorage.setItem('swipeHintShown', 'true');
+        }
+
+        // Listen for scroll to update dots
+        this.content.addEventListener('scroll', () => this.onScroll());
+
+        // Update arrows state
+        this.updateArrows();
     },
 
-    closeMenu() {
-        this.hamburger.classList.remove('active');
-        this.navList.classList.remove('active');
-        this.overlay.classList.remove('active');
-        this.hamburger.setAttribute('aria-label', 'Abrir menú de navegación');
-        document.body.style.overflow = '';
+    destroyCarousel() {
+        const dotsContainer = document.querySelector('.mobile-nav-dots');
+        const arrows = document.querySelector('.carousel-arrows');
+        const hint = document.querySelector('.swipe-hint');
+
+        if (dotsContainer) dotsContainer.remove();
+        if (this.indicator) this.indicator.remove();
+        if (arrows) arrows.remove();
+        if (hint) hint.remove();
+
+        this.dots = [];
+        this.indicator = null;
     },
 
-    updateSectionLabel(text, iconClass) {
-        if (this.sectionLabel) {
-            this.sectionLabel.innerHTML = `<i class="fas ${iconClass}"></i>${text}`;
+    showSwipeHint() {
+        const hint = document.createElement('div');
+        hint.className = 'swipe-hint';
+        hint.innerHTML = '<span>Desliza para navegar</span><i class="fas fa-arrow-right"></i>';
+        document.body.appendChild(hint);
+
+        setTimeout(() => hint.remove(), 3500);
+    },
+
+    goToSection(index) {
+        if (index < 0 || index >= this.sections.length) return;
+
+        const section = this.sections[index];
+        this.content.scrollTo({
+            left: section.offsetLeft,
+            behavior: 'smooth'
+        });
+    },
+
+    navigate(direction) {
+        const newIndex = this.currentIndex + direction;
+        if (newIndex >= 0 && newIndex < this.sections.length) {
+            this.goToSection(newIndex);
+        }
+    },
+
+    onScroll() {
+        const scrollLeft = this.content.scrollLeft;
+        const sectionWidth = this.content.offsetWidth;
+        const newIndex = Math.round(scrollLeft / sectionWidth);
+
+        if (newIndex !== this.currentIndex && newIndex >= 0 && newIndex < this.sections.length) {
+            this.currentIndex = newIndex;
+            this.updateDots(newIndex);
+            this.updateIndicator(newIndex);
+            this.updateArrows();
+
+            // Also update the desktop nav for consistency
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach((link, i) => {
+                link.classList.toggle('active', i === newIndex);
+            });
+        }
+    },
+
+    updateDots(activeIndex) {
+        this.dots.forEach((dot, i) => {
+            dot.classList.toggle('active', i === activeIndex);
+        });
+    },
+
+    updateIndicator(index) {
+        if (this.indicator && this.sectionData[index]) {
+            const section = this.sectionData[index];
+            this.indicator.innerHTML = `<i class="fas ${section.icon}"></i><span>${section.name}</span>`;
+        }
+    },
+
+    updateArrows() {
+        if (this.prevBtn) {
+            this.prevBtn.disabled = this.currentIndex === 0;
+        }
+        if (this.nextBtn) {
+            this.nextBtn.disabled = this.currentIndex === this.sections.length - 1;
         }
     }
 };
@@ -1027,7 +1118,7 @@ const CVGenerator = {
 document.addEventListener('DOMContentLoaded', () => {
     Navigation.init();
     Animations.init();
-    MobileMenu.init();
+    MobileCarousel.init();
     DarkMode.init();
     ImageGallery.init();
 
