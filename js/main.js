@@ -487,33 +487,90 @@ const Animations = {
 // MOBILE MENU MODULE
 // ======================
 const MobileMenu = {
+    hamburger: null,
+    navList: null,
+    overlay: null,
+    sectionLabel: null,
+
     init() {
-        // Create hamburger button
         const nav = document.querySelector('.nav-tabs');
         if (!nav) return;
 
-        const hamburger = document.createElement('button');
-        hamburger.className = 'hamburger';
-        hamburger.setAttribute('aria-label', 'Toggle navigation menu');
-        hamburger.innerHTML = '<span></span><span></span><span></span>';
+        // Create hamburger button
+        this.hamburger = document.createElement('button');
+        this.hamburger.className = 'hamburger';
+        this.hamburger.setAttribute('aria-label', 'Abrir menú de navegación');
+        this.hamburger.innerHTML = '<span></span><span></span><span></span>';
+        nav.appendChild(this.hamburger);
 
-        nav.appendChild(hamburger);
+        // Create overlay
+        this.overlay = document.createElement('div');
+        this.overlay.className = 'sidebar-overlay';
+        document.body.appendChild(this.overlay);
 
-        const navList = document.querySelector('.nav-list');
+        // Create current section label
+        this.sectionLabel = document.createElement('div');
+        this.sectionLabel.className = 'current-section-label';
+        this.updateSectionLabel('Perfil', 'fa-user');
+        nav.appendChild(this.sectionLabel);
 
-        hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('active');
-            navList.classList.toggle('active');
-        });
+        this.navList = document.querySelector('.nav-list');
 
-        // Close menu when clicking on a nav link
+        // Toggle menu on hamburger click
+        this.hamburger.addEventListener('click', () => this.toggleMenu());
+
+        // Close menu when clicking overlay
+        this.overlay.addEventListener('click', () => this.closeMenu());
+
+        // Close menu when clicking a nav link and update section label
         const navLinks = document.querySelectorAll('.nav-link');
         navLinks.forEach(link => {
             link.addEventListener('click', () => {
-                hamburger.classList.remove('active');
-                navList.classList.remove('active');
+                const text = link.textContent.trim();
+                const icon = link.querySelector('i');
+                const iconClass = icon ? icon.className.replace('fas ', '') : 'fa-circle';
+                this.updateSectionLabel(text, iconClass);
+                this.closeMenu();
             });
         });
+
+        // Close menu on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && this.navList.classList.contains('active')) {
+                this.closeMenu();
+            }
+        });
+    },
+
+    toggleMenu() {
+        const isOpen = this.navList.classList.contains('active');
+        if (isOpen) {
+            this.closeMenu();
+        } else {
+            this.openMenu();
+        }
+    },
+
+    openMenu() {
+        this.hamburger.classList.add('active');
+        this.navList.classList.add('active');
+        this.overlay.classList.add('active');
+        this.hamburger.setAttribute('aria-label', 'Cerrar menú de navegación');
+        document.body.style.overflow = 'hidden';
+    },
+
+    closeMenu() {
+        this.hamburger.classList.remove('active');
+        this.navList.classList.remove('active');
+        this.overlay.classList.remove('active');
+        this.hamburger.setAttribute('aria-label', 'Abrir menú de navegación');
+        document.body.style.overflow = '';
+    },
+
+    updateSectionLabel(text, iconClass) {
+        if (this.sectionLabel) {
+            this.sectionLabel.innerHTML = `<i class="fas ${iconClass}"></i>${text}`;
+        }
     }
 };
 
