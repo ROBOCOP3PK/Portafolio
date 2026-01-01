@@ -1171,6 +1171,30 @@ const CVGenerator = {
 };
 
 // ======================
+// SCROLL TO TOP (MOBILE)
+// ======================
+const ScrollToTop = {
+    init() {
+        const scrollBtn = document.getElementById('scroll-top-mobile');
+        if (!scrollBtn) return;
+
+        scrollBtn.addEventListener('click', () => {
+            // Scroll the page to top (header)
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+
+            // Also scroll the hero into view
+            const hero = document.querySelector('.hero');
+            if (hero) {
+                hero.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    }
+};
+
+// ======================
 // INITIALIZATION
 // ======================
 document.addEventListener('DOMContentLoaded', () => {
@@ -1179,6 +1203,7 @@ document.addEventListener('DOMContentLoaded', () => {
     MobileCarousel.init();
     DarkMode.init();
     ImageGallery.init();
+    ScrollToTop.init();
 
     // Set current year in footer
     const yearElement = document.getElementById('current-year');
