@@ -884,6 +884,20 @@ const CVGenerator = {
             'Python - Uniagustiniana',
             'AutoCAD 2D - SENA',
             'IoT Fundamentals - Cisco'
+        ],
+        proyectos: [
+            {
+                nombre: 'PetuniaPlay - E-commerce para Mascotas',
+                tecnologias: 'Laravel 12 + Vue.js 3 + Tailwind CSS + MySQL',
+                url: 'tienda.davidhub.space',
+                descripcion: 'Sistema completo de e-commerce con catálogo, carrito, cupones, programa de fidelidad y panel admin'
+            },
+            {
+                nombre: 'Finanzas Compartidas - Gestión de Gastos',
+                tecnologias: 'Laravel 12 + Vue.js 3 + Pinia + SQLite + PWA',
+                url: 'finanzas.davidhub.space',
+                descripcion: 'App PWA para gastos personales y compartidos con funcionamiento offline y sincronización'
+            }
         ]
     },
 
@@ -973,6 +987,50 @@ const CVGenerator = {
 
             y += 6;
         });
+
+        // === PROYECTOS PERSONALES ===
+        if (y > pageHeight - 50) {
+            doc.addPage();
+            y = 20;
+        }
+
+        y = this.addSection(doc, 'PROYECTOS PERSONALES', y, margin);
+
+        this.data.proyectos.forEach(proyecto => {
+            if (y > pageHeight - 30) {
+                doc.addPage();
+                y = 20;
+            }
+
+            // Nombre del proyecto
+            doc.setTextColor(...this.colors.dark);
+            doc.setFontSize(10);
+            doc.setFont('Roboto', 'bold');
+            doc.text(proyecto.nombre, margin, y);
+
+            // URL (alineada a la derecha)
+            doc.setTextColor(...this.colors.primary);
+            doc.setFontSize(9);
+            doc.setFont('Roboto', 'normal');
+            const urlWidth = doc.getTextWidth(proyecto.url);
+            doc.text(proyecto.url, pageWidth - margin - urlWidth, y);
+
+            y += 5;
+
+            // Tecnologías
+            doc.setTextColor(...this.colors.gray);
+            doc.setFontSize(9);
+            doc.text(proyecto.tecnologias, margin, y);
+            y += 4;
+
+            // Descripción
+            doc.setTextColor(...this.colors.dark);
+            const descLines = doc.splitTextToSize(`•  ${proyecto.descripcion}`, contentWidth - 5);
+            doc.text(descLines, margin + 3, y);
+            y += descLines.length * 4 + 4;
+        });
+
+        y += 4;
 
         // === DOS COLUMNAS: EDUCACION Y HABILIDADES ===
         if (y > pageHeight - 80) {
