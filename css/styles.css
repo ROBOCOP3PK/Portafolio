@@ -267,7 +267,7 @@ body {
 }
 
 .section {
-    padding: 40px;
+    padding: 40px 60px;
     display: none;
 }
 
@@ -1146,6 +1146,10 @@ footer {
 @media (min-width: 1200px) {
     .container {
         max-width: 1400px;
+    }
+
+    .section {
+        padding: 50px 80px;
     }
 }
 

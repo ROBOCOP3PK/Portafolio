@@ -499,8 +499,8 @@ const MobileCarousel = {
         { id: 'experiencia', name: 'Experiencia', icon: 'fa-briefcase' },
         { id: 'educacion', name: 'Educación', icon: 'fa-graduation-cap' },
         { id: 'habilidades', name: 'Habilidades', icon: 'fa-cogs' },
-        { id: 'diagrama', name: 'Skills', icon: 'fa-project-diagram' },
-        { id: 'proyectos', name: 'Proyectos', icon: 'fa-code-branch' }
+        { id: 'proyectos', name: 'Proyectos', icon: 'fa-code-branch' },
+        { id: 'diagrama', name: 'Skills', icon: 'fa-project-diagram' }
     ],
 
     init() {
