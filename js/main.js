@@ -887,6 +887,18 @@ const CVGenerator = {
         ],
         proyectos: [
             {
+                nombre: 'VigilIA - Administración de Conjuntos Residenciales',
+                tecnologias: 'Laravel 12 + Vue.js 3 + PHP 8.4 + MySQL + Sanctum + Spatie Permission',
+                url: 'vigilia.davidhub.space',
+                descripcion: 'Sistema integral multi-tenant con control de acceso, facturación, reservas, PQRS, emergencias, 7 roles y 105 permisos'
+            },
+            {
+                nombre: 'Valera Emocional - Bienestar Laboral',
+                tecnologias: 'Laravel 12 + Vue.js 3 + TypeScript + MySQL + PWA',
+                url: 'github.com/ROBOCOP3PK/valera',
+                descripcion: 'Plataforma SaaS multi-tenant de permisos laborales con aprobaciones jerárquicas, motor de reglas y dashboards'
+            },
+            {
                 nombre: 'PetuniaPlay - E-commerce para Mascotas',
                 tecnologias: 'Laravel 12 + Vue.js 3 + Tailwind CSS + MySQL',
                 url: 'tienda.davidhub.space',
