@@ -825,10 +825,11 @@ const CVGenerator = {
                 periodo: 'Feb 2023 - Nov 2024',
                 ubicacion: 'Bogotá (Híbrido)',
                 logros: [
-                    'Automatización de procesos con UiPath y Power Automate',
-                    'Desarrollo de aplicaciones internas con Power Apps',
-                    'Creación de 5+ asistentes virtuales para procesos críticos',
-                    'Reducción de tiempos operativos mediante automatización'
+                    'Desarrollo de bots RPA con UiPath para procesos financieros y de RRHH',
+                    'Desarrollo de aplicaciones internas con Power Apps y Dataverse',
+                    'Creación de chatbots internos para Nómina, Seguridad Social e Impuestos',
+                    'Personalización y desarrollo de módulos en ODOO (ERP)',
+                    'Automatización de procesos contables y tributarios con macros VBA'
                 ]
             },
             {
@@ -837,9 +838,10 @@ const CVGenerator = {
                 periodo: 'Sep 2021 - Ene 2023',
                 ubicacion: 'Bogotá',
                 logros: [
-                    'Automatización de tareas con scripts y macros',
-                    'Apoyo en proyectos de transformación digital',
-                    'Levantamiento de información y casos de usuario'
+                    'Levantamiento de procesos: toma de tiempos, diagramas de flujo y documentos PDD',
+                    'Apoyo en evaluación y selección de proveedores tecnológicos',
+                    'Seguimiento de proyectos de transformación digital (RPA, ERP, firma digital)',
+                    'Documentación bajo estándares de calidad ISO'
                 ]
             }
         ],
