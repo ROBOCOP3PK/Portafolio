@@ -805,7 +805,10 @@ const CVGenerator = {
             linkedin: 'linkedin.com/in/david-steven-gonzalez-padilla',
             github: 'github.com/ROBOCOP3PK'
         },
-        perfil: 'Desarrollador Full Stack con más de 3 años de experiencia creando soluciones web para el sector público y empresarial. Especializado en Laravel y Vue.js, con sólida experiencia en automatización de procesos (RPA) y desarrollo de aplicaciones empresariales con Power Platform. Enfoque en código limpio, buenas prácticas y entrega de valor.',
+        get perfil() {
+            const exp = ExperienceCalculator.getFullText();
+            return `Desarrollador Full Stack con ${exp} de experiencia creando soluciones web para el sector público y empresarial. Especializado en Laravel y Vue.js, con sólida experiencia en automatización de procesos (RPA) y desarrollo de aplicaciones empresariales con Power Platform. Enfoque en código limpio, buenas prácticas y entrega de valor.`;
+        },
         experiencia: [
             {
                 cargo: 'Desarrollador Full Stack',
@@ -814,6 +817,7 @@ const CVGenerator = {
                 ubicacion: 'Bogotá (Híbrido)',
                 logros: [
                     'Desarrollo de sistemas para el sector público con Laravel y Vue.js',
+                    'Migración de código PHP legacy a PHP 8.x',
                     'Gestión de bases de datos MySQL y ORACLE',
                     'Implementación de APIs RESTful y módulos completos',
                     'Interfaces responsivas con Tailwind CSS'
@@ -891,7 +895,7 @@ const CVGenerator = {
             {
                 nombre: 'VigilIA - Administración de Conjuntos Residenciales',
                 tecnologias: 'Laravel 12 + Vue.js 3 + PHP 8.4 + MySQL + Sanctum + Spatie Permission',
-                url: 'vigilia.davidhub.space',
+                url: 'vigilia.deepdev.com.co',
                 descripcion: 'Sistema integral multi-tenant con control de acceso, facturación, reservas, PQRS, emergencias, 7 roles y 105 permisos'
             },
             {
@@ -903,13 +907,13 @@ const CVGenerator = {
             {
                 nombre: 'PetuniaPlay - E-commerce para Mascotas',
                 tecnologias: 'Laravel 12 + Vue.js 3 + Tailwind CSS + MySQL',
-                url: 'tienda.davidhub.space',
+                url: 'tienda.deepdev.com.co',
                 descripcion: 'Sistema completo de e-commerce con catálogo, carrito, cupones, programa de fidelidad y panel admin'
             },
             {
                 nombre: 'Finanzas Compartidas - Gestión de Gastos',
                 tecnologias: 'Laravel 12 + Vue.js 3 + Pinia + SQLite + PWA',
-                url: 'finanzas.davidhub.space',
+                url: 'finanzas.deepdev.com.co',
                 descripcion: 'App PWA para gastos personales y compartidos con funcionamiento offline y sincronización'
             }
         ]
@@ -1209,6 +1213,53 @@ const ScrollToTop = {
 };
 
 // ======================
+// EXPERIENCE CALCULATOR
+// ======================
+const ExperienceCalculator = {
+    startDate: new Date(2021, 8, 1), // Septiembre 2021
+
+    calculate() {
+        const now = new Date();
+        let years = now.getFullYear() - this.startDate.getFullYear();
+        let months = now.getMonth() - this.startDate.getMonth();
+
+        if (months < 0) {
+            years--;
+            months += 12;
+        }
+
+        return { years, months };
+    },
+
+    getShortText() {
+        const { years } = this.calculate();
+        return `+${years} años`;
+    },
+
+    getFullText() {
+        const { years, months } = this.calculate();
+        if (months === 0) return `+${years} años`;
+        return `+${years} años y ${months} meses`;
+    },
+
+    init() {
+        const elements = document.querySelectorAll('[data-experience]');
+        elements.forEach(el => {
+            const format = el.dataset.experience;
+            el.textContent = format === 'full' ? this.getFullText() : this.getShortText();
+        });
+
+        // Update meta description
+        const metaDesc = document.querySelector('meta[name="description"]');
+        if (metaDesc) {
+            metaDesc.setAttribute('content',
+                `David Gonzalez - Desarrollador Full Stack especializado en Laravel, Vue.js y RPA. ${this.getShortText()} de experiencia en sector público y empresarial.`
+            );
+        }
+    }
+};
+
+// ======================
 // INITIALIZATION
 // ======================
 document.addEventListener('DOMContentLoaded', () => {
@@ -1218,6 +1269,7 @@ document.addEventListener('DOMContentLoaded', () => {
     DarkMode.init();
     ImageGallery.init();
     ScrollToTop.init();
+    ExperienceCalculator.init();
 
     // Set current year in footer
     const yearElement = document.getElementById('current-year');
