@@ -489,10 +489,6 @@ body {
     transform: translateY(-5px);
     background: var(--glass-bg-hover);
     border-color: var(--glass-border-hover);
-    box-shadow:
-        inset 0 1px 0 0 var(--glass-shadow-inset),
-        inset 0 -1px 0 0 rgba(255,255,255,0.06),
-        0 8px 32px -4px rgba(0,0,0,0.25);
 }
 
 .job-card {
@@ -1411,6 +1407,172 @@ footer {
     .card {
         -webkit-backdrop-filter: blur(6px);
         backdrop-filter: blur(6px);
+    }
+}
+
+/* ======================
+   NEURAL NETWORK BACKGROUND
+   ====================== */
+
+.neural-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+@media (pointer: coarse), (max-width: 768px) {
+    .neural-canvas {
+        display: none !important;
+    }
+}
+
+/* ======================
+   LIGHTING & GLOW EFFECTS
+   ====================== */
+
+/* Ambient floating orbs */
+.ambient-orb {
+    position: fixed;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+    filter: blur(100px);
+}
+
+.ambient-orb--1 {
+    width: 500px;
+    height: 500px;
+    background: rgba(37, 99, 235, 0.10);
+    top: 10%;
+    left: 15%;
+    animation: orbDrift1 20s ease-in-out infinite;
+}
+
+.ambient-orb--2 {
+    width: 400px;
+    height: 400px;
+    background: rgba(124, 58, 237, 0.08);
+    top: 55%;
+    right: 10%;
+    animation: orbDrift2 25s ease-in-out infinite;
+}
+
+.ambient-orb--3 {
+    width: 450px;
+    height: 450px;
+    background: rgba(37, 99, 235, 0.06);
+    bottom: 10%;
+    left: 5%;
+    animation: orbDrift3 22s ease-in-out infinite;
+}
+
+@keyframes orbDrift1 {
+    0%, 100% { transform: translate(0, 0); }
+    25% { transform: translate(60px, -40px); }
+    50% { transform: translate(-30px, 50px); }
+    75% { transform: translate(40px, 30px); }
+}
+
+@keyframes orbDrift2 {
+    0%, 100% { transform: translate(0, 0); }
+    25% { transform: translate(-50px, 30px); }
+    50% { transform: translate(40px, -60px); }
+    75% { transform: translate(-20px, -30px); }
+}
+
+@keyframes orbDrift3 {
+    0%, 100% { transform: translate(0, 0); }
+    25% { transform: translate(30px, 50px); }
+    50% { transform: translate(-50px, -20px); }
+    75% { transform: translate(20px, -40px); }
+}
+
+/* Specular highlight on cards (glass shine) */
+.card {
+    position: relative;
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 10%;
+    right: 10%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--glass-shadow-inset), transparent);
+    pointer-events: none;
+    border-radius: 15px 15px 0 0;
+    z-index: 1;
+}
+
+/* Card hover glow (blue aura) */
+.card:hover {
+    box-shadow:
+        inset 0 1px 0 0 var(--glass-shadow-inset),
+        inset 0 -1px 0 0 rgba(255,255,255,0.06),
+        0 8px 32px -4px rgba(0,0,0,0.25),
+        0 0 20px -5px rgba(37, 99, 235, 0.15);
+}
+
+[data-theme="dark"] .card:hover {
+    box-shadow:
+        inset 0 1px 0 0 var(--glass-shadow-inset),
+        inset 0 -1px 0 0 rgba(255,255,255,0.06),
+        0 8px 32px -4px rgba(0,0,0,0.35),
+        0 0 20px -5px rgba(37, 99, 235, 0.25);
+}
+
+/* Button glow sweep */
+.btn-download,
+.social-links a {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-download::after,
+.social-links a::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+    transition: left 0.5s ease;
+    pointer-events: none;
+}
+
+.btn-download:hover::after,
+.social-links a:hover::after {
+    left: 100%;
+}
+
+/* Cursor glow - subtle radial light that follows the mouse */
+.cursor-glow {
+    position: fixed;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(37, 99, 235, 0.12) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.3s;
+}
+
+[data-theme="dark"] .cursor-glow {
+    background: radial-gradient(circle, rgba(37, 99, 235, 0.18) 0%, transparent 70%);
+}
+
+/* Hide lighting effects on mobile */
+@media (pointer: coarse), (max-width: 768px) {
+    .ambient-orb,
+    .cursor-glow {
+        display: none !important;
     }
 }
 

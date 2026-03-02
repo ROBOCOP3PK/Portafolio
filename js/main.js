@@ -1260,6 +1260,208 @@ const ExperienceCalculator = {
 };
 
 // ======================
+// NEURAL NETWORK BACKGROUND
+// ======================
+const NeuralNetwork = {
+    canvas: null,
+    ctx: null,
+    nodes: [],
+    mouse: { x: -9999, y: -9999 },
+    width: 0,
+    height: 0,
+    SPACING: 90,
+    CONNECT_DIST: 130,
+    MOUSE_RADIUS: 200,
+    MOUSE_FORCE: 25,
+    RETURN_SPEED: 0.03,
+    NODE_RADIUS: 1.5,
+    isDark: false,
+
+    init() {
+        if (window.matchMedia('(pointer: coarse)').matches) return;
+        this.createCanvas();
+        this.handleResize();
+        this.bindEvents();
+        this.animate();
+    },
+
+    createCanvas() {
+        this.canvas = document.createElement('canvas');
+        this.canvas.className = 'neural-canvas';
+        this.canvas.setAttribute('aria-hidden', 'true');
+        document.body.appendChild(this.canvas);
+        this.ctx = this.canvas.getContext('2d');
+    },
+
+    handleResize() {
+        this.width = window.innerWidth;
+        this.height = window.innerHeight;
+        this.canvas.width = this.width;
+        this.canvas.height = this.height;
+        this.createNodes();
+    },
+
+    createNodes() {
+        this.nodes = [];
+        const cols = Math.ceil(this.width / this.SPACING) + 1;
+        const rows = Math.ceil(this.height / this.SPACING) + 1;
+        const offsetX = (this.width - (cols - 1) * this.SPACING) / 2;
+        const offsetY = (this.height - (rows - 1) * this.SPACING) / 2;
+
+        for (let row = 0; row < rows; row++) {
+            for (let col = 0; col < cols; col++) {
+                const baseX = offsetX + col * this.SPACING + (Math.random() - 0.5) * 20;
+                const baseY = offsetY + row * this.SPACING + (Math.random() - 0.5) * 20;
+                this.nodes.push({
+                    baseX, baseY,
+                    x: baseX, y: baseY,
+                    vx: 0, vy: 0
+                });
+            }
+        }
+    },
+
+    bindEvents() {
+        window.addEventListener('resize', () => this.handleResize());
+
+        document.addEventListener('mousemove', (e) => {
+            this.mouse.x = e.clientX;
+            this.mouse.y = e.clientY;
+        });
+
+        document.addEventListener('mouseleave', () => {
+            this.mouse.x = -9999;
+            this.mouse.y = -9999;
+        });
+
+        // Observe theme changes
+        const observer = new MutationObserver(() => {
+            this.isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        });
+        observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+        this.isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    },
+
+    animate() {
+        this.ctx.clearRect(0, 0, this.width, this.height);
+
+        const nodeAlpha = this.isDark ? 0.25 : 0.12;
+        const lineAlpha = this.isDark ? 0.12 : 0.06;
+        const color = this.isDark ? '147, 197, 253' : '37, 99, 235';
+
+        // Update node positions
+        for (const node of this.nodes) {
+            const dx = this.mouse.x - node.x;
+            const dy = this.mouse.y - node.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+
+            if (dist < this.MOUSE_RADIUS && dist > 0) {
+                const force = (1 - dist / this.MOUSE_RADIUS) * this.MOUSE_FORCE;
+                node.vx -= (dx / dist) * force * 0.02;
+                node.vy -= (dy / dist) * force * 0.02;
+            }
+
+            // Spring back to base position
+            node.vx += (node.baseX - node.x) * this.RETURN_SPEED;
+            node.vy += (node.baseY - node.y) * this.RETURN_SPEED;
+
+            // Damping
+            node.vx *= 0.9;
+            node.vy *= 0.9;
+
+            node.x += node.vx;
+            node.y += node.vy;
+        }
+
+        // Draw connections
+        this.ctx.lineWidth = 0.5;
+        for (let i = 0; i < this.nodes.length; i++) {
+            for (let j = i + 1; j < this.nodes.length; j++) {
+                const a = this.nodes[i];
+                const b = this.nodes[j];
+                const dx = a.x - b.x;
+                const dy = a.y - b.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+
+                if (dist < this.CONNECT_DIST) {
+                    const alpha = lineAlpha * (1 - dist / this.CONNECT_DIST);
+                    this.ctx.strokeStyle = `rgba(${color}, ${alpha})`;
+                    this.ctx.beginPath();
+                    this.ctx.moveTo(a.x, a.y);
+                    this.ctx.lineTo(b.x, b.y);
+                    this.ctx.stroke();
+                }
+            }
+        }
+
+        // Draw nodes
+        for (const node of this.nodes) {
+            this.ctx.beginPath();
+            this.ctx.arc(node.x, node.y, this.NODE_RADIUS, 0, Math.PI * 2);
+            this.ctx.fillStyle = `rgba(${color}, ${nodeAlpha})`;
+            this.ctx.fill();
+        }
+
+        requestAnimationFrame(() => this.animate());
+    }
+};
+
+// ======================
+// LIGHTING EFFECTS MODULE
+// ======================
+const LightingEffects = {
+    glowEl: null,
+    mouse: { x: 0, y: 0 },
+
+    init() {
+        if (this.isTouchDevice()) return;
+        this.createOrbs();
+        this.createCursorGlow();
+        this.bindEvents();
+    },
+
+    isTouchDevice() {
+        return window.matchMedia('(pointer: coarse)').matches ||
+            ('ontouchstart' in window && navigator.maxTouchPoints > 0);
+    },
+
+    createOrbs() {
+        for (let i = 1; i <= 3; i++) {
+            const orb = document.createElement('div');
+            orb.className = `ambient-orb ambient-orb--${i}`;
+            orb.setAttribute('aria-hidden', 'true');
+            document.body.appendChild(orb);
+        }
+    },
+
+    createCursorGlow() {
+        this.glowEl = document.createElement('div');
+        this.glowEl.className = 'cursor-glow';
+        this.glowEl.setAttribute('aria-hidden', 'true');
+        this.glowEl.style.opacity = '0';
+        document.body.appendChild(this.glowEl);
+    },
+
+    bindEvents() {
+        document.addEventListener('mousemove', (e) => {
+            this.mouse.x = e.clientX;
+            this.mouse.y = e.clientY;
+            this.glowEl.style.left = e.clientX + 'px';
+            this.glowEl.style.top = e.clientY + 'px';
+            this.glowEl.style.opacity = '1';
+        });
+
+        document.addEventListener('mouseleave', () => {
+            this.glowEl.style.opacity = '0';
+        });
+
+        document.addEventListener('mouseenter', () => {
+            this.glowEl.style.opacity = '1';
+        });
+    }
+};
+
+// ======================
 // CURSOR EFFECTS MODULE
 // ======================
 const CursorEffects = {
@@ -1509,6 +1711,8 @@ document.addEventListener('DOMContentLoaded', () => {
     ImageGallery.init();
     ScrollToTop.init();
     ExperienceCalculator.init();
+    NeuralNetwork.init();
+    LightingEffects.init();
     CursorEffects.init();
 
     // Set current year in footer
