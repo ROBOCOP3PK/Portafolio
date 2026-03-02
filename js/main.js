@@ -1260,6 +1260,245 @@ const ExperienceCalculator = {
 };
 
 // ======================
+// CURSOR EFFECTS MODULE
+// ======================
+const CursorEffects = {
+    mouse: { x: 0, y: 0 },
+    ring: { x: 0, y: 0 },
+    particles: [],
+    dot: null,
+    ringEl: null,
+    canvas: null,
+    ctx: null,
+    animId: null,
+    visible: false,
+    hovering: false,
+    clicking: false,
+    lastMouse: { x: 0, y: 0 },
+    LERP_FACTOR: 0.15,
+    MAX_PARTICLES: 400,
+    TRAIL_COLORS: ['#3b82f6', '#60a5fa', '#93c5fd', '#bfdbfe'],
+    FIREWORK_COLORS: ['#3b82f6', '#2563eb', '#60a5fa', '#93c5fd', '#bfdbfe'],
+
+    init() {
+        if (this.isTouchDevice()) return;
+        this.createDOM();
+        this.bindEvents();
+        this.animate();
+    },
+
+    isTouchDevice() {
+        return window.matchMedia('(pointer: coarse)').matches ||
+            ('ontouchstart' in window && navigator.maxTouchPoints > 0);
+    },
+
+    createDOM() {
+        this.dot = document.createElement('div');
+        this.dot.className = 'cursor-dot';
+        document.body.appendChild(this.dot);
+
+        this.ringEl = document.createElement('div');
+        this.ringEl.className = 'cursor-ring';
+        document.body.appendChild(this.ringEl);
+
+        this.canvas = document.createElement('canvas');
+        this.canvas.className = 'cursor-canvas';
+        document.body.appendChild(this.canvas);
+
+        this.ctx = this.canvas.getContext('2d');
+        this.resizeCanvas();
+        window.addEventListener('resize', () => this.resizeCanvas());
+    },
+
+    resizeCanvas() {
+        this.canvas.width = window.innerWidth;
+        this.canvas.height = window.innerHeight;
+    },
+
+    bindEvents() {
+        document.addEventListener('mousemove', (e) => {
+            this.mouse.x = e.clientX;
+            this.mouse.y = e.clientY;
+            if (!this.visible) {
+                this.visible = true;
+                this.ring.x = e.clientX;
+                this.ring.y = e.clientY;
+                this.dot.style.opacity = '1';
+                this.ringEl.style.opacity = '1';
+            }
+        });
+
+        document.addEventListener('mousedown', (e) => {
+            this.clicking = true;
+            this.dot.classList.add('clicking');
+            this.ringEl.classList.add('clicking');
+            this.spawnFirework(e.clientX, e.clientY);
+        });
+
+        document.addEventListener('mouseup', () => {
+            this.clicking = false;
+            this.dot.classList.remove('clicking');
+            this.ringEl.classList.remove('clicking');
+        });
+
+        document.addEventListener('mouseover', (e) => {
+            const target = e.target.closest('a, button, [role="button"], .clickable, input[type="submit"], .nav-link, .thumb, .gallery-main');
+            if (target) {
+                this.hovering = true;
+                this.dot.classList.add('hovering');
+                this.ringEl.classList.add('hovering');
+            }
+        });
+
+        document.addEventListener('mouseout', (e) => {
+            const target = e.target.closest('a, button, [role="button"], .clickable, input[type="submit"], .nav-link, .thumb, .gallery-main');
+            if (target) {
+                this.hovering = false;
+                this.dot.classList.remove('hovering');
+                this.ringEl.classList.remove('hovering');
+            }
+        });
+
+        document.addEventListener('mouseleave', () => {
+            this.visible = false;
+            this.dot.style.opacity = '0';
+            this.ringEl.style.opacity = '0';
+        });
+
+        document.addEventListener('mouseenter', () => {
+            this.visible = true;
+            this.dot.style.opacity = '1';
+            this.ringEl.style.opacity = '1';
+        });
+    },
+
+    animate() {
+        if (this.visible) {
+            // Dot follows mouse instantly
+            this.dot.style.left = this.mouse.x + 'px';
+            this.dot.style.top = this.mouse.y + 'px';
+
+            // Ring follows with lerp
+            this.ring.x += (this.mouse.x - this.ring.x) * this.LERP_FACTOR;
+            this.ring.y += (this.mouse.y - this.ring.y) * this.LERP_FACTOR;
+            this.ringEl.style.left = this.ring.x + 'px';
+            this.ringEl.style.top = this.ring.y + 'px';
+
+            // Spawn trail particles
+            this.spawnTrail();
+        }
+
+        // Update and render particles
+        this.updateParticles();
+
+        this.animId = requestAnimationFrame(() => this.animate());
+    },
+
+    spawnTrail() {
+        const dx = this.mouse.x - this.lastMouse.x;
+        const dy = this.mouse.y - this.lastMouse.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist < 2) {
+            this.lastMouse.x = this.mouse.x;
+            this.lastMouse.y = this.mouse.y;
+            return;
+        }
+
+        const count = Math.min(Math.floor(dist / 4), 8);
+        for (let i = 0; i < count; i++) {
+            const t = i / count;
+            const x = this.lastMouse.x + dx * t + (Math.random() - 0.5) * 8;
+            const y = this.lastMouse.y + dy * t + (Math.random() - 0.5) * 8;
+            const color = this.TRAIL_COLORS[Math.floor(Math.random() * this.TRAIL_COLORS.length)];
+
+            this.particles.push({
+                x, y,
+                vx: (Math.random() - 0.5) * 0.5,
+                vy: (Math.random() - 0.5) * 0.5,
+                life: 1,
+                decay: 0.02 + Math.random() * 0.02,
+                size: 2 + Math.random() * 3,
+                color,
+                gravity: 0,
+                drag: 1
+            });
+        }
+
+        this.lastMouse.x = this.mouse.x;
+        this.lastMouse.y = this.mouse.y;
+
+        // Cap particles
+        if (this.particles.length > this.MAX_PARTICLES) {
+            this.particles.splice(0, this.particles.length - this.MAX_PARTICLES);
+        }
+    },
+
+    spawnFirework(x, y) {
+        const count = 20 + Math.floor(Math.random() * 10);
+        for (let i = 0; i < count; i++) {
+            const angle = (Math.PI * 2 * i) / count + (Math.random() - 0.5) * 0.3;
+            const speed = 3 + Math.random() * 5;
+            const color = this.FIREWORK_COLORS[Math.floor(Math.random() * this.FIREWORK_COLORS.length)];
+
+            this.particles.push({
+                x, y,
+                vx: Math.cos(angle) * speed,
+                vy: Math.sin(angle) * speed,
+                life: 1,
+                decay: 0.015 + Math.random() * 0.01,
+                size: 3 + Math.random() * 4,
+                color,
+                gravity: 0.12,
+                drag: 0.98
+            });
+        }
+    },
+
+    updateParticles() {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+        for (let i = this.particles.length - 1; i >= 0; i--) {
+            const p = this.particles[i];
+
+            // Physics
+            p.vx *= p.drag;
+            p.vy *= p.drag;
+            p.vy += p.gravity;
+            p.x += p.vx;
+            p.y += p.vy;
+            p.life -= p.decay;
+
+            if (p.life <= 0) {
+                this.particles.splice(i, 1);
+                continue;
+            }
+
+            // Render outer glow
+            const rgba = this.hexToRgba(p.color, p.life * 0.4);
+            this.ctx.beginPath();
+            this.ctx.arc(p.x, p.y, p.size * 2.5 * p.life, 0, Math.PI * 2);
+            this.ctx.fillStyle = rgba;
+            this.ctx.fill();
+
+            // Render core
+            const coreRgba = this.hexToRgba('#bfdbfe', p.life * 0.9);
+            this.ctx.beginPath();
+            this.ctx.arc(p.x, p.y, p.size * p.life, 0, Math.PI * 2);
+            this.ctx.fillStyle = coreRgba;
+            this.ctx.fill();
+        }
+    },
+
+    hexToRgba(hex, alpha) {
+        const r = parseInt(hex.slice(1, 3), 16);
+        const g = parseInt(hex.slice(3, 5), 16);
+        const b = parseInt(hex.slice(5, 7), 16);
+        return `rgba(${r},${g},${b},${alpha})`;
+    }
+};
+
+// ======================
 // INITIALIZATION
 // ======================
 document.addEventListener('DOMContentLoaded', () => {
@@ -1270,6 +1509,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ImageGallery.init();
     ScrollToTop.init();
     ExperienceCalculator.init();
+    CursorEffects.init();
 
     // Set current year in footer
     const yearElement = document.getElementById('current-year');

@@ -1373,3 +1373,84 @@ footer {
         flex-direction: column;
     }
 }
+
+/* ======================
+   CUSTOM CURSOR EFFECTS
+   ====================== */
+
+/* Hide native cursor on devices with fine pointer */
+@media (pointer: fine) {
+    * {
+        cursor: none !important;
+    }
+}
+
+.cursor-dot {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 12px;
+    height: 12px;
+    background: #fff;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    mix-blend-mode: difference;
+    transform: translate(-50%, -50%);
+    transition: width 0.2s, height 0.2s;
+}
+
+.cursor-ring {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 40px;
+    height: 40px;
+    border: 2px solid var(--accent-color);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: width 0.2s, height 0.2s, border-color 0.2s;
+}
+
+.cursor-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9997;
+    mix-blend-mode: screen;
+}
+
+.cursor-dot.hovering {
+    width: 20px;
+    height: 20px;
+}
+
+.cursor-ring.hovering {
+    width: 56px;
+    height: 56px;
+    border-color: var(--primary-color);
+}
+
+.cursor-dot.clicking {
+    width: 8px;
+    height: 8px;
+}
+
+.cursor-ring.clicking {
+    width: 32px;
+    height: 32px;
+}
+
+/* Hide cursor effects on touch/mobile devices */
+@media (pointer: coarse), (max-width: 768px) {
+    .cursor-dot,
+    .cursor-ring,
+    .cursor-canvas {
+        display: none !important;
+    }
+}
