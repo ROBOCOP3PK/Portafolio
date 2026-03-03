@@ -1476,17 +1476,43 @@ const CursorEffects = {
     visible: false,
     hovering: false,
     clicking: false,
+    isDark: false,
     lastMouse: { x: 0, y: 0 },
     LERP_FACTOR: 0.15,
     MAX_PARTICLES: 400,
-    TRAIL_COLORS: ['#3b82f6', '#60a5fa', '#93c5fd', '#bfdbfe'],
-    FIREWORK_COLORS: ['#3b82f6', '#2563eb', '#60a5fa', '#93c5fd', '#bfdbfe'],
+    TRAIL_COLORS_DARK: ['#3b82f6', '#60a5fa', '#93c5fd', '#bfdbfe'],
+    TRAIL_COLORS_LIGHT: ['#1d4ed8', '#2563eb', '#3b82f6', '#1e40af'],
+    FIREWORK_COLORS_DARK: ['#3b82f6', '#2563eb', '#60a5fa', '#93c5fd', '#bfdbfe'],
+    FIREWORK_COLORS_LIGHT: ['#1d4ed8', '#2563eb', '#1e40af', '#3b82f6', '#0ea5e9'],
+    CORE_COLOR_DARK: '#bfdbfe',
+    CORE_COLOR_LIGHT: '#1e40af',
 
     init() {
         if (this.isTouchDevice()) return;
+        this.isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        this.observeTheme();
         this.createDOM();
         this.bindEvents();
         this.animate();
+    },
+
+    observeTheme() {
+        const observer = new MutationObserver(() => {
+            this.isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        });
+        observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+    },
+
+    getTrailColors() {
+        return this.isDark ? this.TRAIL_COLORS_DARK : this.TRAIL_COLORS_LIGHT;
+    },
+
+    getFireworkColors() {
+        return this.isDark ? this.FIREWORK_COLORS_DARK : this.FIREWORK_COLORS_LIGHT;
+    },
+
+    getCoreColor() {
+        return this.isDark ? this.CORE_COLOR_DARK : this.CORE_COLOR_LIGHT;
     },
 
     isTouchDevice() {
@@ -1612,7 +1638,8 @@ const CursorEffects = {
             const t = i / count;
             const x = this.lastMouse.x + dx * t + (Math.random() - 0.5) * 8;
             const y = this.lastMouse.y + dy * t + (Math.random() - 0.5) * 8;
-            const color = this.TRAIL_COLORS[Math.floor(Math.random() * this.TRAIL_COLORS.length)];
+            const colors = this.getTrailColors();
+            const color = colors[Math.floor(Math.random() * colors.length)];
 
             this.particles.push({
                 x, y,
@@ -1641,7 +1668,8 @@ const CursorEffects = {
         for (let i = 0; i < count; i++) {
             const angle = (Math.PI * 2 * i) / count + (Math.random() - 0.5) * 0.3;
             const speed = 3 + Math.random() * 5;
-            const color = this.FIREWORK_COLORS[Math.floor(Math.random() * this.FIREWORK_COLORS.length)];
+            const fwColors = this.getFireworkColors();
+            const color = fwColors[Math.floor(Math.random() * fwColors.length)];
 
             this.particles.push({
                 x, y,
@@ -1684,7 +1712,7 @@ const CursorEffects = {
             this.ctx.fill();
 
             // Render core
-            const coreRgba = this.hexToRgba('#bfdbfe', p.life * 0.9);
+            const coreRgba = this.hexToRgba(this.getCoreColor(), p.life * 0.9);
             this.ctx.beginPath();
             this.ctx.arc(p.x, p.y, p.size * p.life, 0, Math.PI * 2);
             this.ctx.fillStyle = coreRgba;
