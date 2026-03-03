@@ -48,16 +48,12 @@ const Navigation = {
         }
 
         // Initialize diagram if diagrama section is selected
-        if (sectionId === 'diagrama') {
+        if (sectionId === 'diagrama' && !SkillsDiagram.initialized) {
             setTimeout(() => SkillsDiagram.init(), 100);
         }
     }
 };
 
-// Global function for onclick compatibility (legacy)
-function showSection(sectionId, clickedLink) {
-    Navigation.showSection(sectionId, clickedLink);
-}
 
 // ======================
 // SKILLS DIAGRAM MODULE
@@ -920,6 +916,10 @@ const CVGenerator = {
     },
 
     async generate() {
+        if (!window.jspdf) {
+            alert('El generador de PDF aún está cargando. Intenta de nuevo en unos segundos.');
+            return;
+        }
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF('p', 'mm', 'a4');
 

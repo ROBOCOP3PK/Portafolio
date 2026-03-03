@@ -44,9 +44,9 @@
     <link href="css/styles.css?v=2" rel="stylesheet">
 
     <!-- jsPDF for CV Generation -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
     <!-- Roboto Font for jsPDF UTF-8 support -->
-    <script src="js/roboto-font.js"></script>
+    <script src="js/roboto-font.js" defer></script>
 </head>
 <body>
     <!-- Skip Link for Accessibility -->
@@ -90,32 +90,32 @@
         <nav class="nav-tabs" role="navigation" aria-label="Navegación principal del portafolio">
             <ul class="nav-list">
                 <li class="nav-item">
-                    <a href="#perfil" class="nav-link active" onclick="showSection('perfil', this)">
+                    <a href="#perfil" class="nav-link active">
                         <i class="fas fa-user"></i> Perfil
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#experiencia" class="nav-link" onclick="showSection('experiencia', this)">
+                    <a href="#experiencia" class="nav-link">
                         <i class="fas fa-briefcase"></i> Experiencia
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#educacion" class="nav-link" onclick="showSection('educacion', this)">
+                    <a href="#educacion" class="nav-link">
                         <i class="fas fa-graduation-cap"></i> Educación
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#habilidades" class="nav-link" onclick="showSection('habilidades', this)">
+                    <a href="#habilidades" class="nav-link">
                         <i class="fas fa-cogs"></i> Habilidades
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#proyectos" class="nav-link" onclick="showSection('proyectos', this)">
+                    <a href="#proyectos" class="nav-link">
                         <i class="fas fa-code-branch"></i> Proyectos
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#diagrama" class="nav-link" onclick="showSection('diagrama', this)">
+                    <a href="#diagrama" class="nav-link">
                         <i class="fas fa-project-diagram"></i> Red de Skills
                     </a>
                 </li>
@@ -378,20 +378,20 @@
                             <div style="flex: 1; min-width: 300px;">
                                 <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px; flex-wrap: wrap;">
                                     <h4 style="color: var(--secondary-color); margin: 0;">
-                                        <i class="fas fa-shield-halved"></i> VigilIA - Administraci&oacute;n de Conjuntos Residenciales
+                                        <i class="fas fa-shield-halved"></i> VigilIA - Administración de Conjuntos Residenciales
                                     </h4>
                                     <span style="background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 4px 10px; border-radius: 15px; font-size: 0.7rem; font-weight: 600;">PROYECTO PERSONAL</span>
                                 </div>
-                                <p style="margin-bottom: 15px;"><strong>Sistema integral de administraci&oacute;n de conjuntos residenciales</strong> con arquitectura multi-tenant. REST API (Laravel 12) + SPA (Vue.js 3) con 8 m&oacute;dulos funcionales, gesti&oacute;n de roles y permisos granulares, y despliegue automatizado.</p>
+                                <p style="margin-bottom: 15px;"><strong>Sistema integral de administración de conjuntos residenciales</strong> con arquitectura multi-tenant. REST API (Laravel 12) + SPA (Vue.js 3) con 8 módulos funcionales, gestión de roles y permisos granulares, y despliegue automatizado.</p>
 
                                 <div style="background: rgba(16, 185, 129, 0.1); padding: 15px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #10b981;">
                                     <h5 style="color: #10b981; margin-bottom: 10px;">Funcionalidades principales:</h5>
                                     <ul class="styled-list" style="margin-bottom: 0;">
                                         <li>Control de acceso vehicular y peatonal con registro de visitantes</li>
-                                        <li>Facturaci&oacute;n, cartera y gesti&oacute;n de pagos por unidad</li>
-                                        <li>Reservas de &aacute;reas comunes con validaci&oacute;n de disponibilidad</li>
-                                        <li>Sistema de PQRS con seguimiento y categorizaci&oacute;n</li>
-                                        <li>M&oacute;dulo de emergencias y comunicados</li>
+                                        <li>Facturación, cartera y gestión de pagos por unidad</li>
+                                        <li>Reservas de áreas comunes con validación de disponibilidad</li>
+                                        <li>Sistema de PQRS con seguimiento y categorización</li>
+                                        <li>Módulo de emergencias y comunicados</li>
                                         <li>Multi-tenancy por propiedad, 7 roles y 105 permisos</li>
                                     </ul>
                                 </div>
@@ -409,14 +409,14 @@
 
                                 <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px;">
                                     <a href="https://vigilia.deepdev.com.co" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 10px 20px; border-radius: 25px; text-decoration: none; font-weight: 600; transition: all 0.3s ease;">
-                                        <i class="fas fa-external-link-alt"></i> Ver Aplicaci&oacute;n
+                                        <i class="fas fa-external-link-alt"></i> Ver Aplicación
                                     </a>
                                     <a href="https://github.com/ROBOCOP3PK/vigilia" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 8px; background: var(--gradient); color: white; padding: 10px 20px; border-radius: 25px; text-decoration: none; font-weight: 600; transition: all 0.3s ease;">
                                         <i class="fab fa-github"></i> Ver en GitHub
                                     </a>
                                 </div>
 
-                                <p style="font-size: 0.85rem; color: var(--text-light); margin: 0;"><i class="fas fa-server"></i> Desplegado en servidor propio | 8 m&oacute;dulos | 105 permisos | CI/CD con GitHub Actions</p>
+                                <p style="font-size: 0.85rem; color: var(--text-light); margin: 0;"><i class="fas fa-server"></i> Desplegado en servidor propio | 8 módulos | 105 permisos | CI/CD con GitHub Actions</p>
                             </div>
                             <div style="flex: 1; min-width: 300px;">
                                 <div class="project-icon-display">
@@ -501,15 +501,15 @@
                                     <span style="background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 4px 10px; border-radius: 15px; font-size: 0.7rem; font-weight: 600;">PROYECTO PERSONAL</span>
                                     <span style="background: linear-gradient(135deg, #f59e0b, #d97706); color: white; padding: 4px 10px; border-radius: 15px; font-size: 0.7rem; font-weight: 600;">PWA</span>
                                 </div>
-                                <p style="margin-bottom: 15px;"><strong>Plataforma SaaS multi-tenant de bienestar y permisos laborales.</strong> Permite a empresas gestionar solicitudes de permisos con aprobaciones jer&aacute;rquicas, motor de reglas configurable y dashboards de anal&iacute;tica.</p>
+                                <p style="margin-bottom: 15px;"><strong>Plataforma SaaS multi-tenant de bienestar y permisos laborales.</strong> Permite a empresas gestionar solicitudes de permisos con aprobaciones jerárquicas, motor de reglas configurable y dashboards de analítica.</p>
 
                                 <div style="background: rgba(16, 185, 129, 0.1); padding: 15px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #10b981;">
                                     <h5 style="color: #10b981; margin-bottom: 10px;">Funcionalidades principales:</h5>
                                     <ul class="styled-list" style="margin-bottom: 0;">
-                                        <li>Flujos de aprobaci&oacute;n jer&aacute;rquicos multinivel</li>
+                                        <li>Flujos de aprobación jerárquicos multinivel</li>
                                         <li>Motor de reglas configurable por empresa</li>
-                                        <li>Dashboard de anal&iacute;tica con gr&aacute;ficos interactivos</li>
-                                        <li>Integraci&oacute;n con Slack y Microsoft Teams</li>
+                                        <li>Dashboard de analítica con gráficos interactivos</li>
+                                        <li>Integración con Slack y Microsoft Teams</li>
                                         <li>PWA con funcionamiento offline</li>
                                         <li>Multi-tenancy completo con aislamiento por empresa</li>
                                     </ul>
@@ -843,7 +843,7 @@
                 </div>
 
                 <!-- Proyectos RPA -->
-                <div class="projects-container" data-category="rpa" style="display: none;">
+                <div class="projects-container" data-category="rpa">
                     <h3 style="color: var(--primary-color); margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
                         <i class="fas fa-robot"></i> Automatización RPA con UiPath
                     </h3>
@@ -975,7 +975,7 @@
                 </div>
 
                 <!-- Proyectos Desarrollo Web -->
-                <div class="projects-container" data-category="web-dev" style="display: none;">
+                <div class="projects-container" data-category="web-dev">
                     <h3 style="color: var(--primary-color); margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
                         <i class="fas fa-code"></i> Desarrollo Web Full Stack (Laravel + Vue.js)
                     </h3>
