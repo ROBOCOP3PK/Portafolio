@@ -827,7 +827,7 @@ const CVGenerator = {
                 logros: [
                     'Desarrollo de bots RPA con UiPath para procesos financieros y de RRHH',
                     'Desarrollo de aplicaciones internas con Power Apps y Dataverse',
-                    'Creación de chatbots internos para Nómina, Seguridad Social e Impuestos',
+                    'Desarrollo de chatbots con Power Virtual Agents para autogestión de empleados: consultas de vacaciones, nómina y generación de certificados laborales',
                     'Personalización y desarrollo de módulos en ODOO (ERP)',
                     'Automatización de procesos contables y tributarios con macros VBA'
                 ]
@@ -866,7 +866,8 @@ const CVGenerator = {
                 'Python / Django',
                 'Git / Postman',
                 'UiPath / Power Automate',
-                'Power Apps / Dataverse'
+                'Power Apps / Dataverse',
+                'Power Virtual Agents'
             ],
             blandas: [
                 'Resolución de problemas',
