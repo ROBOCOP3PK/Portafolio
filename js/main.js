@@ -976,23 +976,26 @@ const CVGenerator = {
                 y = 20;
             }
 
-            // Cargo y empresa
+            // Periodo y ubicacion (alineado a la derecha)
+            doc.setTextColor(...this.colors.gray);
+            doc.setFontSize(9);
+            doc.setFont('Roboto', 'normal');
+            const periodoText = `${exp.periodo} | ${exp.ubicacion}`;
+            const periodoWidth = doc.getTextWidth(periodoText);
+            doc.text(periodoText, pageWidth - margin - periodoWidth, y);
+
+            // Cargo y empresa (con ancho máximo para no solapar la fecha)
+            const maxTitleWidth = contentWidth - periodoWidth - 10;
             doc.setTextColor(...this.colors.dark);
             doc.setFontSize(11);
             doc.setFont('Roboto', 'bold');
-            doc.text(exp.cargo, margin, y);
+            const cargoLines = doc.splitTextToSize(exp.cargo, maxTitleWidth);
+            doc.text(cargoLines, margin, y);
 
             doc.setFontSize(10);
             doc.setFont('Roboto', 'normal');
             doc.setTextColor(...this.colors.primary);
             doc.text(exp.empresa, margin, y + 5);
-
-            // Periodo y ubicacion (alineado a la derecha)
-            doc.setTextColor(...this.colors.gray);
-            doc.setFontSize(9);
-            const periodoText = `${exp.periodo} | ${exp.ubicacion}`;
-            const periodoWidth = doc.getTextWidth(periodoText);
-            doc.text(periodoText, pageWidth - margin - periodoWidth, y);
 
             y += 12;
 
@@ -1000,8 +1003,14 @@ const CVGenerator = {
             doc.setTextColor(...this.colors.dark);
             doc.setFontSize(9);
             exp.logros.forEach(logro => {
-                doc.text(`•  ${logro}`, margin + 3, y);
-                y += 4.5;
+                const logroLines = doc.splitTextToSize(`•  ${logro}`, contentWidth - 5);
+                // Check if we need a new page for this logro
+                if (y + logroLines.length * 4 > pageHeight - 20) {
+                    doc.addPage();
+                    y = 20;
+                }
+                doc.text(logroLines, margin + 3, y);
+                y += logroLines.length * 4;
             });
 
             y += 6;
@@ -1039,8 +1048,9 @@ const CVGenerator = {
             // Tecnologías
             doc.setTextColor(...this.colors.gray);
             doc.setFontSize(9);
-            doc.text(proyecto.tecnologias, margin, y);
-            y += 4;
+            const techLines = doc.splitTextToSize(proyecto.tecnologias, contentWidth - 5);
+            doc.text(techLines, margin, y);
+            y += techLines.length * 4;
 
             // Descripción
             doc.setTextColor(...this.colors.dark);
