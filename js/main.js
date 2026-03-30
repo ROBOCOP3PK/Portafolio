@@ -948,29 +948,35 @@ const CVGenerator = {
     },
 
     loadProfileImage() {
-        return new Promise((resolve, reject) => {
-            const img = new Image();
-            img.crossOrigin = 'anonymous';
-            img.onload = () => {
-                const size = Math.min(img.width, img.height);
-                const canvas = document.createElement('canvas');
-                canvas.width = size;
-                canvas.height = size;
-                const ctx = canvas.getContext('2d');
-                // Recorte circular
-                ctx.beginPath();
-                ctx.arc(size / 2, size / 2, size / 2, 0, Math.PI * 2);
-                ctx.closePath();
-                ctx.clip();
-                // Centrar imagen
-                const offsetX = (img.width - size) / 2;
-                const offsetY = (img.height - size) / 2;
-                ctx.drawImage(img, offsetX, offsetY, size, size, 0, 0, size, size);
-                resolve(canvas.toDataURL('image/png'));
-            };
-            img.onerror = () => reject(new Error('No se pudo cargar la foto de perfil'));
-            img.src = 'assets/images/profile.jpg';
-        });
+        return fetch('assets/images/profile.jpg')
+            .then(response => response.blob())
+            .then(blob => new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    const img = new Image();
+                    img.onload = () => {
+                        const size = Math.min(img.width, img.height);
+                        const canvas = document.createElement('canvas');
+                        canvas.width = size;
+                        canvas.height = size;
+                        const ctx = canvas.getContext('2d');
+                        // Recorte circular
+                        ctx.beginPath();
+                        ctx.arc(size / 2, size / 2, size / 2, 0, Math.PI * 2);
+                        ctx.closePath();
+                        ctx.clip();
+                        // Centrar imagen
+                        const offsetX = (img.width - size) / 2;
+                        const offsetY = (img.height - size) / 2;
+                        ctx.drawImage(img, offsetX, offsetY, size, size, 0, 0, size, size);
+                        resolve(canvas.toDataURL('image/png'));
+                    };
+                    img.onerror = reject;
+                    img.src = reader.result;
+                };
+                reader.onerror = reject;
+                reader.readAsDataURL(blob);
+            }));
     },
 
     async generate() {
