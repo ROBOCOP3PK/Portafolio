@@ -69,7 +69,7 @@ const SkillsDiagram = {
             type: 'category',
             class: 'frontend center-node',
             position: { x: 15, y: 25 },
-            connections: ['javascript', 'html', 'vuejs', 'tailwind']
+            connections: ['javascript', 'typescript', 'html', 'vuejs', 'tailwind']
         },
         backend: {
             type: 'category',
@@ -81,7 +81,7 @@ const SkillsDiagram = {
             type: 'category',
             class: 'database center-node',
             position: { x: 50, y: 15 },
-            connections: ['mysql', 'oracle', 'dataverse']
+            connections: ['mysql', 'oracle', 'sqlite', 'redis', 'dataverse']
         },
         automation: {
             type: 'category',
@@ -93,7 +93,7 @@ const SkillsDiagram = {
             type: 'category',
             class: 'tools center-node',
             position: { x: 80, y: 70 },
-            connections: ['git', 'postman', 'powerapps', 'odoo']
+            connections: ['git', 'github', 'postman', 'powerapps', 'odoo', 'vscode']
         },
         methodologies: {
             type: 'category',
@@ -106,7 +106,13 @@ const SkillsDiagram = {
             type: 'tech',
             class: 'frontend tech-node',
             position: { x: 5, y: 40 },
-            connections: ['vuejs', 'php', 'postman']
+            connections: ['vuejs', 'typescript', 'php', 'postman']
+        },
+        typescript: {
+            type: 'tech',
+            class: 'frontend tech-node',
+            position: { x: 8, y: 15 },
+            connections: ['javascript', 'vuejs']
         },
         html: {
             type: 'tech',
@@ -118,7 +124,7 @@ const SkillsDiagram = {
             type: 'tech',
             class: 'frontend tech-node',
             position: { x: 35, y: 35 },
-            connections: ['laravel', 'tailwind']
+            connections: ['laravel', 'tailwind', 'typescript']
         },
         tailwind: {
             type: 'tech',
@@ -136,13 +142,13 @@ const SkillsDiagram = {
             type: 'tech',
             class: 'backend tech-node',
             position: { x: 65, y: 50 },
-            connections: ['php', 'mysql', 'vuejs']
+            connections: ['php', 'mysql', 'vuejs', 'redis']
         },
         python: {
             type: 'tech',
             class: 'backend tech-node',
             position: { x: 90, y: 40 },
-            connections: ['django', 'mysql']
+            connections: ['django', 'mysql', 'uipath', 'odoo']
         },
         django: {
             type: 'tech',
@@ -154,7 +160,7 @@ const SkillsDiagram = {
             type: 'tech',
             class: 'backend tech-node',
             position: { x: 75, y: 10 },
-            connections: []
+            connections: ['uipath']
         },
         mysql: {
             type: 'tech',
@@ -168,6 +174,18 @@ const SkillsDiagram = {
             position: { x: 60, y: 5 },
             connections: ['php']
         },
+        sqlite: {
+            type: 'tech',
+            class: 'database tech-node',
+            position: { x: 38, y: 18 },
+            connections: ['laravel']
+        },
+        redis: {
+            type: 'tech',
+            class: 'database tech-node',
+            position: { x: 62, y: 18 },
+            connections: ['laravel']
+        },
         dataverse: {
             type: 'tech',
             class: 'database tech-node',
@@ -178,7 +196,7 @@ const SkillsDiagram = {
             type: 'tech',
             class: 'automation tech-node',
             position: { x: 10, y: 85 },
-            connections: ['vba']
+            connections: ['vba', 'vbnet', 'python']
         },
         powerautomate: {
             type: 'tech',
@@ -196,7 +214,13 @@ const SkillsDiagram = {
             type: 'tech',
             class: 'tools tech-node',
             position: { x: 95, y: 75 },
-            connections: ['laravel', 'django']
+            connections: ['github', 'laravel', 'django']
+        },
+        github: {
+            type: 'tech',
+            class: 'tools tech-node',
+            position: { x: 95, y: 60 },
+            connections: ['git', 'vscode']
         },
         postman: {
             type: 'tech',
@@ -214,7 +238,13 @@ const SkillsDiagram = {
             type: 'tech',
             class: 'tools tech-node',
             position: { x: 90, y: 10 },
-            connections: []
+            connections: ['python']
+        },
+        vscode: {
+            type: 'tech',
+            class: 'tools tech-node',
+            position: { x: 75, y: 60 },
+            connections: ['github', 'git']
         },
         scrum: {
             type: 'tech',
@@ -233,6 +263,7 @@ const SkillsDiagram = {
     capitalize(str) {
         const specialCases = {
             'javascript': 'JavaScript',
+            'typescript': 'TypeScript',
             'html': 'HTML',
             'vuejs': 'Vue.js',
             'tailwind': 'Tailwind CSS',
@@ -243,14 +274,18 @@ const SkillsDiagram = {
             'vbnet': 'VB.NET',
             'mysql': 'MySQL',
             'oracle': 'ORACLE',
+            'sqlite': 'SQLite',
+            'redis': 'Redis',
             'dataverse': 'Dataverse',
             'uipath': 'UiPath',
             'powerautomate': 'Power Automate',
             'vba': 'VBA',
             'git': 'Git',
+            'github': 'GitHub',
             'postman': 'Postman',
             'powerapps': 'Power Apps',
             'odoo': 'Odoo',
+            'vscode': 'VS Code',
             'scrum': 'Scrum',
             'kanban': 'Kanban',
             'frontend': 'FRONTEND',
@@ -409,34 +444,23 @@ function initSkillsNetwork() {
 const ProjectsFilter = {
     filterProjects(category) {
         const containers = document.querySelectorAll('.projects-container');
-        const filters = document.querySelectorAll('[id^="filter-"]');
+        const cards = document.querySelectorAll('.category-card');
 
-        // Remove active class from all filters
-        filters.forEach(filter => {
-            filter.style.background = 'linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(59, 130, 246, 0.05))';
-            filter.style.transform = 'scale(1)';
-            filter.style.boxShadow = 'none';
-            filter.style.border = 'none';
-        });
+        // Remove active class from all category cards
+        cards.forEach(card => card.classList.remove('active'));
 
-        // Add active class to selected filter
-        const activeFilter = document.getElementById(`filter-${category}`);
-        if (activeFilter) {
-            activeFilter.style.background = 'linear-gradient(135deg, rgba(37, 99, 235, 0.2), rgba(59, 130, 246, 0.1))';
-            activeFilter.style.transform = 'scale(1.05)';
-            activeFilter.style.boxShadow = '0 5px 15px rgba(37, 99, 235, 0.3)';
-            activeFilter.style.border = '2px solid rgba(37, 99, 235, 0.3)';
-            activeFilter.style.borderRadius = '10px';
+        // Add active class to selected card
+        const activeCard = document.getElementById(`filter-${category}`);
+        if (activeCard) {
+            activeCard.classList.add('active');
         }
 
         if (category === 'all') {
-            // Show all containers
             containers.forEach(container => {
                 container.style.display = 'block';
                 container.style.animation = 'fadeIn 0.5s ease';
             });
         } else {
-            // Show only selected container
             containers.forEach(container => {
                 if (container.dataset.category === category) {
                     container.style.display = 'block';
@@ -825,7 +849,7 @@ const CVGenerator = {
                 periodo: 'Feb 2023 - Nov 2024',
                 ubicacion: 'Bogotá (Híbrido)',
                 logros: [
-                    'Desarrollo de bots RPA con UiPath para procesos financieros y de RRHH',
+                    'Desarrollo de bots RPA con UiPath (VB.NET + Python) para procesos financieros y de RRHH',
                     'Desarrollo de aplicaciones internas con Power Apps y Dataverse',
                     'Desarrollo de chatbots con Power Virtual Agents para autogestión de empleados: consultas de vacaciones, nómina y generación de certificados laborales',
                     'Personalización y desarrollo de módulos en ODOO (ERP)',
@@ -860,14 +884,15 @@ const CVGenerator = {
         habilidades: {
             tecnicas: [
                 'PHP / Laravel',
-                'JavaScript / Vue.js',
-                'MySQL / ORACLE',
-                'Tailwind CSS',
+                'JavaScript / TypeScript / Vue.js',
+                'MySQL / ORACLE / SQLite',
+                'Tailwind CSS / Redis',
                 'Python / Django',
-                'Git / Postman',
+                'VB.NET / VBA',
                 'UiPath / Power Automate',
                 'Power Apps / Dataverse',
-                'Power Virtual Agents'
+                'Power Virtual Agents',
+                'Git / GitHub / Postman'
             ],
             blandas: [
                 'Resolución de problemas',
@@ -912,6 +937,12 @@ const CVGenerator = {
                 tecnologias: 'Laravel 12 + Vue.js 3 + Pinia + SQLite + PWA',
                 url: 'finanzas.deepdev.com.co',
                 descripcion: 'App PWA para gastos personales y compartidos con funcionamiento offline y sincronización'
+            },
+            {
+                nombre: 'Sistema de Gestión de Demandas - Sector Público',
+                tecnologias: 'Laravel + Vue.js + MySQL + ORACLE + Tailwind CSS',
+                url: '',
+                descripcion: 'Plataforma web para entidades públicas con gestión de pagos, validaciones bancarias y reportes PDF'
             }
         ]
     },
