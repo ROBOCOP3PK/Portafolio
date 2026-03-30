@@ -916,6 +916,32 @@ const CVGenerator = {
         ]
     },
 
+    loadProfileImage() {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.crossOrigin = 'anonymous';
+            img.onload = () => {
+                const size = Math.min(img.width, img.height);
+                const canvas = document.createElement('canvas');
+                canvas.width = size;
+                canvas.height = size;
+                const ctx = canvas.getContext('2d');
+                // Recorte circular
+                ctx.beginPath();
+                ctx.arc(size / 2, size / 2, size / 2, 0, Math.PI * 2);
+                ctx.closePath();
+                ctx.clip();
+                // Centrar imagen
+                const offsetX = (img.width - size) / 2;
+                const offsetY = (img.height - size) / 2;
+                ctx.drawImage(img, offsetX, offsetY, size, size, 0, 0, size, size);
+                resolve(canvas.toDataURL('image/png'));
+            };
+            img.onerror = () => reject(new Error('No se pudo cargar la foto de perfil'));
+            img.src = 'assets/images/profile.jpg';
+        });
+    },
+
     async generate() {
         if (!window.jspdf) {
             alert('El generador de PDF aún está cargando. Intenta de nuevo en unos segundos.');
@@ -936,6 +962,21 @@ const CVGenerator = {
         // === HEADER CON FONDO AZUL ===
         doc.setFillColor(...this.colors.primary);
         doc.rect(0, 0, pageWidth, 52, 'F');
+
+        // === FOTO DE PERFIL ===
+        const photoSize = 34;
+        const photoX = pageWidth - margin - photoSize;
+        const photoY = (52 - photoSize) / 2;
+        try {
+            const profileImgData = await this.loadProfileImage();
+            doc.addImage(profileImgData, 'PNG', photoX, photoY, photoSize, photoSize);
+            // Borde blanco circular
+            doc.setDrawColor(...this.colors.white);
+            doc.setLineWidth(1.5);
+            doc.circle(photoX + photoSize / 2, photoY + photoSize / 2, photoSize / 2, 'S');
+        } catch (e) {
+            console.warn('No se pudo incluir la foto en el PDF:', e);
+        }
 
         // Nombre
         doc.setTextColor(...this.colors.white);
