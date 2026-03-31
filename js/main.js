@@ -833,7 +833,7 @@ const CVGenerator = {
             {
                 cargo: 'Desarrollador Full Stack',
                 empresa: 'TurriSystem',
-                periodo: 'Dic 2024 - Actualidad',
+                periodo: 'Dic 2024 - Mar 2026',
                 ubicacion: 'Bogotá (Híbrido)',
                 logros: [
                     'Desarrollo de sistemas para el sector público con Laravel y Vue.js',
@@ -1196,18 +1196,13 @@ const CVGenerator = {
         doc.setFontSize(9);
         doc.setFont('Roboto', 'normal');
 
-        // Skills en dos sub-columnas
-        const skillsPerCol = Math.ceil(this.data.habilidades.tecnicas.length / 2);
-        const subColWidth = colWidth / 2;
-
-        this.data.habilidades.tecnicas.forEach((skill, index) => {
-            const isLeftSubCol = index < skillsPerCol;
-            const xPos = isLeftSubCol ? rightCol : rightCol + subColWidth;
-            const skillY = yRight + (isLeftSubCol ? index : index - skillsPerCol) * 5;
-            doc.text(`•  ${skill}`, xPos, skillY);
+        // Skills en lista simple
+        this.data.habilidades.tecnicas.forEach(skill => {
+            doc.text(`•  ${skill}`, rightCol, yRight);
+            yRight += 4.5;
         });
 
-        yRight += skillsPerCol * 5 + 6;
+        yRight += 4;
 
         // Habilidades blandas
         doc.setTextColor(...this.colors.primary);
